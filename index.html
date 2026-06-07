@@ -1182,7 +1182,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 <script>
 // 加载钓场数据 — 直接内联，无需外部fetch
-const fishData = {
+// ============================================================
+// 放鱼信息 & 评测数据 — 优先 fetch，失败则使用内联兜底
+// ============================================================
+let fishData = null;
+const FALLBACK_FISH_DATA = {
   "last_update": "2026-06-07 15:30:00",
   "reviews": [
     {
@@ -1212,8 +1216,19 @@ const fishData = {
   ]
 };
 
-function loadFishData() {
-  // 数据已内联，直接显示
+async function loadFishData() {
+  try {
+    const res = await fetch('fish-stock-data.json?t=' + Date.now());
+    if (res.ok) {
+      fishData = await res.json();
+      console.log('✅ 放鱼数据从 fish-stock-data.json 加载成功');
+    } else {
+      throw new Error('HTTP ' + res.status);
+    }
+  } catch (err) {
+    console.warn('⚠️ 加载 fish-stock-data.json 失败，使用内联兜底数据:', err);
+    fishData = FALLBACK_FISH_DATA;
+  }
   document.getElementById('lastUpdate').textContent = '最后更新：' + (fishData.last_update || '未知');
   showFishDataTab('stock', true);
 }
