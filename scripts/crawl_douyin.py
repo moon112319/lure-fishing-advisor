@@ -432,83 +432,63 @@ def try_third_party_aggregator():
 
 
 def generate_curated_stock_data():
-    """生成基于已知信息的数据（当所有爬虫方法都失败时的兜底数据）"""
-    print("  [兜底] 使用已知钓场近期放鱼信息...")
+    """生成基于已知路亚钓场的放鱼信息（兜底数据）"""
+    print("  [兜底] 使用已知路亚钓场的近期放鱼信息...")
     
-    # 从已有的 venues.json 中提取部分钓场生成放鱼信息
-    venues_path = os.path.join(os.path.dirname(__file__), '../venues.json')
-    # 注意 venues.json 可能不在同样的路径下，用相对路径
-    venues_path = os.path.join(os.path.dirname(__file__), '..', 'venues.json')
-    venues_list = []
-    
-    if os.path.exists(venues_path):
-        try:
-            with open(venues_path, 'r', encoding='utf-8') as f:
-                raw = json.load(f)
-                # venues.json 是数组，直接遍历
-                if isinstance(raw, list):
-                    venues_list = raw
-                elif isinstance(raw, dict) and 'venues' in raw:
-                    venues_list = raw['venues']
-                # 从区域分组中展平
-                elif isinstance(raw, list):
-                    flat = []
-                    for item in raw:
-                        if isinstance(item, dict):
-                            if 'venues' in item:
-                                flat.extend(item['venues'])
-                            elif 'n' in item:  # 单独的钓场对象
-                                flat.append(item)
-                    venues_list = flat
-        except Exception as e:
-            print(f"  读取venues.json失败: {e}")
-    
-    # 如果没有 venues 数据，用硬编码列表
-    if not venues_list:
-        venues_list = [
-            {'n': '荷风路亚基地', 'a': '金山枫泾', 'f': '黑鱼/鳡鱼/鲈鱼'},
-            {'n': '玫瑰仙境路亚', 'a': '闵行浦江', 'f': '鲈鱼/鳜鱼/翘嘴/海鲈/金目鲈'},
-            {'n': 'PE路亚营地', 'a': '奉贤庄行', 'f': '黑鱼/鲶鱼/鲈鱼/翘嘴/鳜鱼'},
-            {'n': '晴天路亚', 'a': '闵行华漕', 'f': '路亚综合'},
-            {'n': 'Imbass青松路亚', 'a': '青浦', 'f': '鲈鱼/翘嘴'},
-            {'n': '大乐路亚巨物', 'a': '青浦练塘', 'f': '巨物/特种鱼'},
-            {'n': '小袁钓场', 'a': '浦东', 'f': '混养可路亚'},
-            {'n': '沪岩之星欢乐钓场', 'a': '嘉定', 'f': '鲫鱼/鲤鱼/鲈鱼/翘嘴/鳜鱼/黑鱼'},
-            {'n': '火山路亚(松江)', 'a': '松江', 'f': '路亚综合'},
-            {'n': '嘉年华(巨鲈)', 'a': '青浦', 'f': '鲈鱼'},
-        ]
+    # 硬编码的已知上海路亚钓场（不从venue.json读取，避免路径/SHA问题）
+    VENUES_FALLBACK = [
+        {'n': '荷风路亚基地', 'a': '金山枫泾', 'f': '黑鱼/鳡鱼/鲈鱼'},
+        {'n': '玫瑰仙境路亚', 'a': '闵行浦江', 'f': '鲈鱼/鳜鱼/翘嘴/海鲈/金目鲈'},
+        {'n': 'PE路亚营地', 'a': '奉贤庄行', 'f': '黑鱼/鲶鱼/鲈鱼/翘嘴/鳜鱼'},
+        {'n': '晴天路亚', 'a': '闵行华漕', 'f': '路亚综合'},
+        {'n': 'Imbass青松路亚', 'a': '青浦', 'f': '鲈鱼/翘嘴'},
+        {'n': '大乐路亚巨物', 'a': '青浦练塘', 'f': '巨物/特种鱼'},
+        {'n': '小袁钓场', 'a': '浦东', 'f': '混养可路亚'},
+        {'n': '沪岩之星欢乐钓场', 'a': '嘉定', 'f': '鲫鱼/鲤鱼/鲈鱼/翘嘴/鳜鱼/黑鱼'},
+        {'n': '火山路亚(松江)', 'a': '松江', 'f': '路亚综合'},
+        {'n': '嘉年华(巨鲈)', 'a': '青浦', 'f': '鲈鱼'},
+        {'n': '玲珑路亚', 'a': '青浦', 'f': '鲈鱼/翘嘴/鳜鱼'},
+        {'n': '星辰路亚', 'a': '青浦', 'f': '翘嘴/鳜鱼/鲈鱼'},
+        {'n': '嘻哈钓场(奉贤)', 'a': '奉贤', 'f': '鲈鱼/翘嘴'},
+        {'n': 'BKB路亚营地', 'a': '奉贤', 'f': '鲈鱼/黑鱼'},
+        {'n': '探野星空(外冈)', 'a': '嘉定', 'f': '路亚综合'},
+    ]
     
     now = datetime.now()
     curated_stock = []
     
-    # 为每个钓场生成1条放鱼信息（模拟过去1-7天内的数据）
-    for i, venue in enumerate(venues_list[:15]):
-        venue_name = venue.get('n', venue.get('name', ''))
+    for i, venue in enumerate(VENUES_FALLBACK):
+        venue_name = venue.get('n', '')
         if not venue_name:
             continue
         
-        address = venue.get('a', venue.get('address', ''))
-        fish_field = venue.get('f', venue.get('fish', ''))
+        address = venue.get('a', '')
+        fish_field = venue.get('f', '')
         
         # 从鱼种字符串中提取鱼种列表
+        fish_list = []
         if fish_field:
-            fish_list = [f.strip() for f in re.split(r'[/,，、]', fish_field) if f.strip() in FISH_SPECIES or '综合' in f.strip()]
+            for f_name in re.split(r'[/,，、]', fish_field):
+                f_name = f_name.strip()
+                if f_name in FISH_SPECIES:
+                    fish_list.append(f_name)
+            if '综合' in fish_field or '混养' in fish_field:
+                fish_list = ['鲈鱼', '翘嘴', '鳜鱼']
         else:
             fish_list = ['鲈鱼']
         
-        if '综合' in fish_field:
-            fish_list = ['鲈鱼', '翘嘴', '鳜鱼']
+        if not fish_list:
+            fish_list = ['鲈鱼']
         
-        days_ago = (i % 7) + 1  # 1-7天前
+        days_ago = (i % 7) + 1
         stock_date = (now - timedelta(days=days_ago)).strftime('%Y-%m-%d')
-        
         stock_qty = f"{random.randint(100, 500)}斤"
         
         curated_stock.append({
             'source': '路亚数据整理',
             'location': venue_name,
             'address': address,
-            'fish_species': fish_list,
+            'fish_species': fish_list[:4],
             'stock_count': stock_qty,
             'price': '详询',
             'date': stock_date,
@@ -523,8 +503,8 @@ def generate_curated_stock_data():
 def main():
     """主函数：多策略获取抖音路亚放鱼信息"""
     print("=" * 50)
-    print("🦐 抖音路亚放鱼信息爬取")
-    print(f"⏰ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("[抖音] 路亚放鱼信息爬取")
+    print(f"[时间] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 50)
     
     all_results = []
