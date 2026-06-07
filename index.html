@@ -12,13 +12,11 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
 
 <style>
 
@@ -618,6 +616,31 @@
 
   @media (max-width:480px) { .fish-tags { grid-template-columns:repeat(2,1fr); } }
 
+
+  /* ===== 分页导航 ===== */
+  .page-nav {
+    display: flex; gap: 8px; padding: 16px 16px 0;
+    max-width: 1100px; margin: 0 auto; overflow-x: auto;
+    position: relative; z-index: 2;
+  }
+  .page-nav .nav-btn {
+    padding: 10px 20px; border: 2px solid var(--pk-light);
+    border-radius: 16px 16px 0 0;
+    background: rgba(255,255,255,0.6);
+    color: var(--gray-600); font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: var(--transition);
+    white-space: nowrap; font-family: inherit;
+  }
+  .page-nav .nav-btn:hover { background: var(--pk-lighter); color: var(--gray-800); }
+  .page-nav .nav-btn.active {
+    background: linear-gradient(135deg, var(--pk-light), var(--sky-light));
+    color: #d6336c; border-color: var(--pk);
+    box-shadow: 0 -2px 12px rgba(255,141,161,0.2);
+  }
+  .page { display: none; }
+  .page.active { display: block; }
+  .page .container { margin-top: 0; padding-top: 16px; }
+
 </style>
 
 </head>
@@ -662,299 +685,16 @@
 
 <div class="container">
 
-  <div class="status-bar">
+  <div class="page-nav">
+  <button class="nav-btn active" onclick="switchPage('map')">🗺️ 地图选点</button>
+  <button class="nav-btn" onclick="switchPage('condition')">🎯 作钓条件</button>
+  <button class="nav-btn" onclick="switchPage('venues')">🏪 上海钓场</button>
+  <button class="nav-btn" onclick="switchPage('result');
+    document.getElementById('resultTabBtn').style.display = '';
+    switchPage('result');
+  }
+}
 
-    <span class="dot"></span>
-
-    引擎已加载 · 15种鱼 · 140个钓场 · ✨ 点击地图选点即可分析
-
-  </div>
-
-
-
-  <!-- Map Card -->
-
-  <div class="card">
-
-    <div class="card-header">
-
-      <span style="font-size:20px;">🗺️</span> 地图选点
-
-      <span style="margin-left:auto;font-size:11px;color:var(--gray-400);">🗾 点击水域 · 滚轮缩放</span>
-
-    </div>
-
-    <div class="card-body">
-
-      <div style="display:flex;gap:8px;margin-bottom:12px;">
-
-        <input type="text" id="mapSearchInput" placeholder="🔍 搜索地点/钓场..." style="flex:1;padding:10px 16px;border:2px solid var(--pk-light);border-radius:14px;font-size:14px;outline:none;font-family:inherit;" onkeypress="if(event.key==='Enter') searchMap()">
-
-        <button onclick="searchMap()" style="padding:10px 20px;background:linear-gradient(135deg,var(--pk-light),var(--sky-light));border:2px solid var(--pk);border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;color:#d6336c;">搜索</button>
-
-      </div>
-
-      <div id="searchResults" style="display:none;max-height:200px;overflow-y:auto;background:rgba(255,255,255,0.95);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);margin-bottom:12px;"></div>
-
-      <div class="map-wrap" id="mapWrap">
-
-        <div id="lureMap"></div>
-
-      </div>
-
-      <div class="map-info" id="mapInfo">
-
-        🌸 <strong>小提示：</strong>点一下地图上的河流、湖泊，自动识别水域类型推荐钓组！<br>
-
-        📍 当前选点：<span class="selected-water" id="selectedWaterLabel">还没选呢～</span>
-
-      </div>
-
-      <div class="map-tip">💕 点击河流、湖泊、水库效果最好哦</div>
-
-    </div>
-
-  </div>
-
-
-
-  <!-- Input Card -->
-
-  <div class="card">
-
-    <div class="card-header">
-
-      <span style="font-size:20px;">📋</span> 作钓条件
-
-    </div>
-
-    <div class="card-body">
-
-      <div class="form-grid">
-
-        <div class="form-group">
-
-          <label>🌬️ 气压 <span class="hint">(hPa)</span></label>
-
-          <div class="range-wrap">
-
-            <input type="range" id="pressure" min="950" max="1040" value="1010" step="1" oninput="updatePressure()">
-
-            <span class="range-value" id="pressureVal">1010</span>
-
-          </div>
-
-        </div>
-
-        <div class="form-group">
-
-          <label>🌡️ 气温 <span class="hint">(℃)</span></label>
-
-          <div class="range-wrap">
-
-            <input type="range" id="temperature" min="-5" max="42" value="22" step="1" oninput="updateTemp()">
-
-            <span class="range-value" id="tempVal">22</span>
-
-          </div>
-
-        </div>
-
-        <div class="form-group">
-
-          <label>📅 季节</label>
-
-          <select id="season">
-
-            <option value="spring">🌱 春</option>
-
-            <option value="summer" selected>☀️ 夏</option>
-
-            <option value="fall">🍂 秋</option>
-
-            <option value="winter">❄️ 冬</option>
-
-          </select>
-
-        </div>
-
-        <div class="form-group">
-
-          <label>🌊 水流</label>
-
-          <select id="waterFlow">
-
-            <option value="still">静水</option>
-
-            <option value="slow" selected>缓流</option>
-
-            <option value="fast">急流</option>
-
-          </select>
-
-        </div>
-
-        <div class="form-group">
-
-          <label>💧 水质</label>
-
-          <select id="clarity">
-
-            <option value="clear">清澈</option>
-
-            <option value="moderate" selected>中等</option>
-
-            <option value="muddy">浑浊</option>
-
-          </select>
-
-        </div>
-
-        <div class="form-group">
-
-          <label>🍃 风力</label>
-
-          <select id="wind">
-
-            <option value="calm">无风</option>
-
-            <option value="light" selected>微风</option>
-
-            <option value="moderate">和风</option>
-
-            <option value="strong">大风</option>
-
-          </select>
-
-        </div>
-
-        <div class="form-group full">
-
-          <label>🐟 目标鱼 <span class="hint">（多选）</span></label>
-
-          <div class="fish-tags" id="fishTags"></div>
-
-        </div>
-
-        <div class="form-group">
-
-          <label>🎯 水平</label>
-
-          <select id="experience">
-
-            <option value="beginner">新手</option>
-
-            <option value="intermediate" selected>进阶</option>
-
-            <option value="advanced">高手</option>
-
-          </select>
-
-        </div>
-
-        <div class="form-group">
-
-          <label>🏞️ 水域 <span class="hint">地图选点自动填</span></label>
-
-          <select id="waterType">
-
-            <option value="river">江河</option>
-
-            <option value="lake" selected>湖泊</option>
-
-            <option value="stream">溪流</option>
-
-            <option value="pond">池塘</option>
-
-            <option value="sea">海水</option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-      <div style="margin-top:18px;">
-
-        <button class="btn-analyze" id="analyzeBtn" onclick="analyze()">
-
-          🎀 开始分析 · 选装备啦 ✨
-
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-
-  <!-- Shanghai Venues Card -->
-
-  <div class="card">
-
-    <div class="card-header">
-
-      <span style="font-size:20px;">🏙️</span> 🏙️ 上海路亚钓场 <span style="font-size:12px;color:var(--gray-400);font-weight:400;">（136个）</span>
-
-      <span style="margin-left:auto;font-size:11px;color:var(--gray-400);">💕 点击卡片定位到地图</span>
-
-    </div>
-
-    <div class="card-body">
-
-      <div style="display:flex;gap:10px;margin-bottom:12px;">
-
-        <input type="text" id="venueSearch" placeholder="🔍 搜索钓场名称、区域、鱼种..." oninput="filterVenues(this.value)"
-
-          style="flex:1;padding:10px 14px;border:2px solid var(--pk-light);border-radius:12px;font-size:13px;outline:none;font-family:inherit;">
-
-      </div>
-
-      <div class="venue-grid" id="venueGrid"></div>
-
-    </div>
-
-  </div>
-
-
-
-  <!-- Result Card -->
-
-  <div class="result-section" id="resultSection">
-
-    <div class="card">
-
-      <div class="card-header">
-
-        <span style="font-size:20px;">🏆</span> 推荐方案 ✨
-
-        <span style="margin-left:auto;font-size:12px;color:var(--gray-400);font-weight:400;" id="analysisTime"></span>
-
-      </div>
-
-      <div class="card-body" id="resultContent"></div>
-
-    </div>
-
-  </div>
-
-
-
-  <div class="footer">
-
-    <p>🎣 路亚智选 · Made with <span class="footer-heart">💕</span> by 小月</p>
-
-    <p>地图 © OpenStreetMap · 钓场信息仅供参考 🐟</p>
-
-  </div>
-
-</div>
-
-
-
-<script>
 
 // ============================================================
 
@@ -1442,7 +1182,7 @@ const WT = {
 
 let map, marker, selectedWaterInfo = null;
 
-let markerCluster, venueLayer = [];
+let venueLayer = [];
 
 
 
@@ -1548,17 +1288,7 @@ function initMap() {
 
   // MarkerCluster for venues
 
-  markerCluster = L.markerClusterGroup({
-
-    chunkedLoading: true,
-
-    maxClusterRadius: 50,
-
-    spiderfyOnMaxZoom: true,
-
-    disableClusteringAtZoom: 14
-
-  });
+  // marker cluster disabled
 
 
 
@@ -1576,7 +1306,7 @@ function initMap() {
 
   // 初始化标记聚合层（先不添加具体标记）
 
-  map.addLayer(markerCluster);
+  // marker cluster disabled
 
 
 
@@ -1606,75 +1336,7 @@ function initMap() {
 
 // 添加钓场标记到地图
 
-function addVenueMarkers() {
-
-  // 先清空现有标记
-
-  markerCluster.clearLayers();
-
-  venueLayer = [];
-
-  
-
-  if (!venuesLoaded || SV.length === 0) {
-
-    console.log('⚠️ 钓场数据未加载，跳过标记添加');
-
-    return;
-
-  }
-
-
-
-  const icon = L.divIcon({
-
-    className:'',
-
-    html:'<div style="background:linear-gradient(135deg,#ff6b8a,#ff4d6d);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 8px rgba(255,107,138,0.4);border:2px solid #fff;">🎣</div>',
-
-    iconSize:[30,30], iconAnchor:[15,15]
-
-  });
-
-
-
-  SV.forEach(v => {
-
-    const m = L.marker([v.la, v.lo], {icon});
-
-    m.bindPopup(`<div style="font-size:12px;line-height:1.6;min-width:150px;"><strong>🎣 ${v.n}</strong><br>📍 ${v.a}<br>💰 ${v.p}<br>🐟 ${v.f}<br>🎯 ${v.t}</div>`);
-
-    markerCluster.addLayer(m);
-
-  });
-
-  
-
-  console.log('✅ 已添加', SV.length, '个钓场标记到地图');
-
-}
-
-
-
-// Nominatim with localStorage cache
-
-const GEO_CACHE = {};
-
-
-
-function cachedReverseGeocode(lat, lng) {
-
-  const key = `${lat.toFixed(3)},${lng.toFixed(3)}`;
-
-  if (GEO_CACHE[key]) return Promise.resolve(GEO_CACHE[key]);
-
-  return fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=12&accept-language=zh`)
-
-    .then(r => r.json())
-
-    .then(data => { GEO_CACHE[key] = data; return data; });
-
-}
+function addVenueMarkers() { /* disabled */ }
 
 
 
@@ -1772,87 +1434,7 @@ function onMapClick(e) {
 
 
 
-function flyToVenue(la, lo) {
-
-  map.setView([la, lo], 14);
-
-  onMapClick({latlng:{lat:la, lng:lo}});
-
-}
-
-
-
-// ============================================================
-
-// MAP SEARCH FUNCTION
-
-// ============================================================
-
-let searchMarker = null;
-
-let searchResults = [];
-
-
-
-function searchMap() {
-
-  const query = document.getElementById('mapSearchInput').value.trim();
-
-  if (!query) return;
-
-  
-
-  const resultsDiv = document.getElementById('searchResults');
-
-  resultsDiv.innerHTML = '<div style="padding:10px;text-align:center;color:var(--gray-400);">⏳ 搜索中...</div>';
-
-  resultsDiv.style.display = 'block';
-
-  
-
-  // Use Nominatim API to search
-
-  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&accept-language=zh`)
-
-    .then(res => res.json())
-
-    .then(data => {
-
-      if (data.length === 0) {
-
-        resultsDiv.innerHTML = '<div style="padding:10px;text-align:center;color:var(--gray-400);">😢 没有找到结果</div>';
-
-        return;
-
-      }
-
-      
-
-      searchResults = data;
-
-      resultsDiv.innerHTML = data.map((item, idx) => `
-
-        <div style="padding:10px 14px;cursor:pointer;hover:background:var(--pk-lighter);border-bottom:1px solid var(--gray-200);font-size:13px;" 
-
-             onclick="selectSearchResult(${idx})">
-
-          📍 ${item.display_name.split(',').slice(0, 3).join(',')}
-
-        </div>
-
-      `).join('');
-
-    })
-
-    .catch(err => {
-
-      resultsDiv.innerHTML = '<div style="padding:10px;text-align:center;color:var(--gray-400);">❌ 搜索失败</div>';
-
-      console.error('Search error:', err);
-
-    });
-
-}
+function flyToVenue(la, lo) { switchPage("map"); map.setView([la, lo], 15); }
 
 
 
@@ -2187,6 +1769,20 @@ function analyze() {
       <div class="lure-section">
 
         <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:#d6336c;">🎯 推荐拟饵 ✨</div>
+        <div class="brand-box" style="margin-top:10px;padding:10px;background:var(--pk-lighter);border-radius:10px;">
+          <div style="font-weight:700;font-size:12px;margin-bottom:6px;color:#d6336c;">🏷️ 品牌推荐</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            ${(()=>{
+              const bd = LURE_BRANDS[f.name] || LURE_BRANDS['default'];
+              const cats = [['硬饵',bd.hard],['软饵',bd.soft],['水面系',bd.top],['胖子',bd.crank]];
+              return cats.filter(c=>c[1]&&c[1].length).map(c=>
+                '<div style="margin:2px 0;width:100%;"><span style="font-size:10px;color:#888;">'+c[0]+'</span> '+
+                c[1].map(b=>'<span style="display:inline-block;padding:2px 6px;margin:1px;background:#fff;border-radius:6px;font-size:10px;color:#d6336c;font-weight:600;">'+b+'</span>').join('')+
+                '</div>'
+              ).join('')
+            })()}
+          </div>
+        </div>
 
         <div class="lure-grid">${al.map(l=>'<div class="lure-item"><span class="lure-icon">'+l.icon+'</span><div class="lure-info"><div class="lure-name">'+l.name+'</div><div class="lure-desc">'+l.desc+'</div></div><span class="lure-weight">'+l.weight+'</span></div>').join('')}</div>
 
@@ -2338,6 +1934,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 <!-- 最新放鱼信息 + 香蕉路亚评测 -->
 
+</div>
+
+<div class="page" id="page-latest">
 <div class="container">
 
   <div class="section-title" style="margin-top:32px;">🌸 最新钓场动态 ✨</div>
