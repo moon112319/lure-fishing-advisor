@@ -1,2 +1,27 @@
-dist/
+# 编辑器/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志和临时文件
+*.log
+*.tmp
+debug.log
+
+# 工作区配置
+.codebuddy/
 .workbuddy/
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 虚拟环境
+venv/
+.env/
