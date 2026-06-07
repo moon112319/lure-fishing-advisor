@@ -1,0 +1,47 @@
+name: 爬取钓场数据
+
+on:
+  schedule:
+    # 每周一早上8点运行 (UTC+8 = 0点 UTC)
+    - cron: '0 0 * * 1'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  crawl-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      
+      - name: 安装依赖
+        run: |
+          cd scripts
+          pip install -r requirements.txt
+      
+      - name: 爬取B站视频信息
+        run: |
+          cd scripts
+          python crawl_bilibili.py
+        continue-on-error: true
+      
+      - name: 爬取放鱼信息
+        run: |
+          cd scripts
+          python crawl_stock_info.py
+        continue-on-error: true
+      
+      - name: 提交更新
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add fish-stock-data.json || true
+          git diff --quiet && git diff --staged --quiet || (git commit -m "自动更新钓场数据 $(date +'%Y-%m-%d')" && git push)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
