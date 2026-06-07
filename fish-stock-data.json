@@ -1,0 +1,29 @@
+{
+  "last_update": "2026-06-07 15:30:00",
+  "reviews": [
+    {
+      "source": "香蕉路亚",
+      "video_title": "示例：青浦青松路亚探钓分享",
+      "video_url": "https://www.bilibili.com/",
+      "location": "青松路亚",
+      "fish_species": ["鲈鱼", "翘嘴"],
+      "price": "138元",
+      "date": "2026-06-07",
+      "description": "示例数据，爬虫运行后将自动更新",
+      "type": "review"
+    }
+  ],
+  "stock_info": [
+    {
+      "source": "示例数据",
+      "location": "嘉北郊野公园路亚基地",
+      "address": "上海市嘉定区",
+      "fish_species": ["鲈鱼", "鳜鱼"],
+      "stock_count": "200斤",
+      "price": "150元/天",
+      "date": "2026-06-07",
+      "type": "stock_info",
+      "note": "爬虫运行后将自动更新真实数据"
+    }
+  ]
+}
