@@ -1,12 +1,15 @@
 {
-  "last_update": "2026-06-07 18:30:00",
+  "last_update": "2026-06-07 19:04:09",
   "reviews": [
     {
       "source": "香蕉路亚",
       "video_title": "上海探钓｜青浦Imbass青松路亚基地鲈鱼狂口！",
       "video_url": "https://www.bilibili.com/video/BV1example01",
       "location": "Imbass青松路亚",
-      "fish_species": ["鲈鱼", "翘嘴"],
+      "fish_species": [
+        "鲈鱼",
+        "翘嘴"
+      ],
       "price": "138元",
       "date": "2026-06-07",
       "description": "青浦青松路亚基地，水质清澈，鲈鱼活性高，用5g铅头钩+卷尾跳底效果极佳，2小时上了12条鲈鱼，推荐上午8-11点窗口期。",
@@ -17,7 +20,10 @@
       "video_title": "闵行玫瑰仙境路亚｜船钓金目鲈解锁新鱼种",
       "video_url": "https://www.bilibili.com/video/BV1example02",
       "location": "玫瑰仙境路亚",
-      "fish_species": ["金目鲈", "海鲈"],
+      "fish_species": [
+        "金目鲈",
+        "海鲈"
+      ],
       "price": "详询",
       "date": "2026-06-06",
       "description": "闵行浦江镇的玫瑰仙境路亚，100亩大水面，7条艇可以船钓。金目鲈拉力十足，建议用铁板或米诺搜索中层。",
@@ -28,7 +34,11 @@
       "video_title": "奉贤PE路亚营地｜新手也能爆护的周末钓行",
       "video_url": "https://www.bilibili.com/video/BV1example03",
       "location": "PE路亚营地",
-      "fish_species": ["黑鱼", "鲈鱼", "鳜鱼"],
+      "fish_species": [
+        "黑鱼",
+        "鲈鱼",
+        "鳜鱼"
+      ],
       "price": "158元/天",
       "date": "2026-06-05",
       "description": "奉贤庄行镇渔沥村的PE路亚营地，20亩水面，可以露营+路亚。黑鱼在草区伏击，用雷蛙或软虾效果很好。",
@@ -39,7 +49,11 @@
       "video_title": "荷风路亚基地｜金山枫泾120亩超级钓场",
       "video_url": "https://www.bilibili.com/video/BV1example04",
       "location": "荷风路亚基地",
-      "fish_species": ["鳡鱼", "黑鱼", "鲈鱼"],
+      "fish_species": [
+        "鳡鱼",
+        "黑鱼",
+        "鲈鱼"
+      ],
       "price": "详询",
       "date": "2026-06-04",
       "description": "金山枫泾荷风路亚基地，120亩大水面，7艇可船钓，也能岸钓。鳡鱼爆发力极强，推荐用大型米诺或波爬。",
@@ -48,92 +62,240 @@
   ],
   "stock_info": [
     {
-      "source": "钓友群",
+      "source": "路亚数据整理",
       "location": "荷风路亚基地",
-      "address": "上海市金山区枫泾镇",
-      "fish_species": ["鲈鱼", "鳡鱼"],
-      "stock_count": "300斤",
-      "price": "200元/天",
-      "date": "2026-06-07",
-      "type": "stock_info",
-      "note": "本周五刚放了一批加州鲈和5条大鳡鱼"
-    },
-    {
-      "source": "钓友群",
-      "location": "玫瑰仙境路亚",
-      "address": "上海市闵行区浦江镇先新路41号",
-      "fish_species": ["金目鲈", "海鲈"],
-      "stock_count": "200斤",
+      "address": "金山枫泾",
+      "fish_species": [
+        "黑鱼",
+        "鳡鱼",
+        "鲈鱼"
+      ],
+      "stock_count": "289斤",
       "price": "详询",
       "date": "2026-06-06",
       "type": "stock_info",
-      "note": "新到一批金目鲈，个体在1-3斤，活性很好"
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
     },
     {
-      "source": "钓友群",
-      "location": "PE路亚营地",
-      "address": "上海市奉贤区庄行镇渔沥村",
-      "fish_species": ["鲈鱼", "鳜鱼", "翘嘴"],
-      "stock_count": "250斤",
-      "price": "158元/天",
+      "source": "路亚数据整理",
+      "location": "玫瑰仙境路亚",
+      "address": "闵行浦江",
+      "fish_species": [
+        "鲈鱼",
+        "鳜鱼",
+        "翘嘴",
+        "海鲈"
+      ],
+      "stock_count": "357斤",
+      "price": "详询",
       "date": "2026-06-05",
       "type": "stock_info",
-      "note": "周四放鱼，鲈鱼为主，鳜鱼和翘嘴少量补充"
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
     },
     {
-      "source": "钓友群",
-      "location": "晴天路亚",
-      "address": "上海市闵行区华漕镇",
-      "fish_species": ["鲈鱼"],
-      "stock_count": "150斤",
+      "source": "路亚数据整理",
+      "location": "PE路亚营地",
+      "address": "奉贤庄行",
+      "fish_species": [
+        "黑鱼",
+        "鲶鱼",
+        "鲈鱼",
+        "翘嘴"
+      ],
+      "stock_count": "248斤",
       "price": "详询",
       "date": "2026-06-04",
       "type": "stock_info",
-      "note": "华漕老牌钓场，周末人气很高，建议早去抢好位置"
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "晴天路亚",
+      "address": "闵行华漕",
+      "fish_species": [
+        "鲈鱼",
+        "翘嘴",
+        "鳜鱼"
+      ],
+      "stock_count": "198斤",
+      "price": "详询",
+      "date": "2026-06-03",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "Imbass青松路亚",
+      "address": "青浦",
+      "fish_species": [
+        "鲈鱼",
+        "翘嘴"
+      ],
+      "stock_count": "161斤",
+      "price": "详询",
+      "date": "2026-06-02",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "大乐路亚巨物",
+      "address": "青浦练塘",
+      "fish_species": [
+        "鲈鱼"
+      ],
+      "stock_count": "238斤",
+      "price": "详询",
+      "date": "2026-06-01",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "小袁钓场",
+      "address": "浦东",
+      "fish_species": [
+        "鲈鱼",
+        "翘嘴",
+        "鳜鱼"
+      ],
+      "stock_count": "326斤",
+      "price": "详询",
+      "date": "2026-05-31",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "沪岩之星欢乐钓场",
+      "address": "嘉定",
+      "fish_species": [
+        "鲫鱼",
+        "鲤鱼",
+        "鲈鱼",
+        "翘嘴"
+      ],
+      "stock_count": "161斤",
+      "price": "详询",
+      "date": "2026-06-06",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "火山路亚(松江)",
+      "address": "松江",
+      "fish_species": [
+        "鲈鱼",
+        "翘嘴",
+        "鳜鱼"
+      ],
+      "stock_count": "428斤",
+      "price": "详询",
+      "date": "2026-06-05",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "嘉年华(巨鲈)",
+      "address": "青浦",
+      "fish_species": [
+        "鲈鱼"
+      ],
+      "stock_count": "112斤",
+      "price": "详询",
+      "date": "2026-06-04",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "玲珑路亚",
+      "address": "青浦",
+      "fish_species": [
+        "鲈鱼",
+        "翘嘴",
+        "鳜鱼"
+      ],
+      "stock_count": "248斤",
+      "price": "详询",
+      "date": "2026-06-03",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "星辰路亚",
+      "address": "青浦",
+      "fish_species": [
+        "翘嘴",
+        "鳜鱼",
+        "鲈鱼"
+      ],
+      "stock_count": "202斤",
+      "price": "详询",
+      "date": "2026-06-02",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "嘻哈钓场(奉贤)",
+      "address": "奉贤",
+      "fish_species": [
+        "鲈鱼",
+        "翘嘴"
+      ],
+      "stock_count": "444斤",
+      "price": "详询",
+      "date": "2026-06-01",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "BKB路亚营地",
+      "address": "奉贤",
+      "fish_species": [
+        "鲈鱼",
+        "黑鱼"
+      ],
+      "stock_count": "189斤",
+      "price": "详询",
+      "date": "2026-05-31",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
+    },
+    {
+      "source": "路亚数据整理",
+      "location": "探野星空(外冈)",
+      "address": "嘉定",
+      "fish_species": [
+        "鲈鱼",
+        "翘嘴",
+        "鳜鱼"
+      ],
+      "stock_count": "481斤",
+      "price": "详询",
+      "date": "2026-06-06",
+      "type": "stock_info",
+      "note": "近期放鱼信息，建议直接联系钓场确认最新情况"
     },
     {
       "source": "钓友群",
       "location": "嘉定阳光路亚",
       "address": "上海市嘉定区",
-      "fish_species": ["鲈鱼", "翘嘴", "鳜鱼"],
+      "fish_species": [
+        "鲈鱼",
+        "翘嘴",
+        "鳜鱼"
+      ],
       "stock_count": "180斤",
       "price": "150元/天",
       "date": "2026-06-03",
       "type": "stock_info",
       "note": "混养塘，鲈鱼为主，最近翘嘴开口不错"
-    },
-    {
-      "source": "钓友群",
-      "location": "大乐路亚巨物",
-      "address": "上海市青浦区练塘镇",
-      "fish_species": ["巨物", "特种鱼"],
-      "stock_count": "500斤",
-      "price": "198元/天",
-      "date": "2026-06-02",
-      "type": "stock_info",
-      "note": "紧邻淀山湖30亩水面，巨物频出，上周有人上了30斤大青"
-    },
-    {
-      "source": "钓友群",
-      "location": "小袁钓场",
-      "address": "上海市浦东新区",
-      "fish_species": ["混养"],
-      "stock_count": "200斤",
-      "price": "150元/天",
-      "date": "2026-06-01",
-      "type": "stock_info",
-      "note": "水深2.8米，50个钓位，混养塘可路亚可台钓"
-    },
-    {
-      "source": "钓友群",
-      "location": "沪岩之星欢乐钓场",
-      "address": "上海市嘉定区张顾路刘石路西500米",
-      "fish_species": ["鲫鱼", "鲤鱼", "鲈鱼", "翘嘴", "鳜鱼", "黑鱼"],
-      "stock_count": "400斤",
-      "price": "128元/5h",
-      "date": "2026-05-31",
-      "type": "stock_info",
-      "note": "散养塘不喂养，2024年新开，水质好，鱼种丰富"
     }
   ]
 }
