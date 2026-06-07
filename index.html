@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 
+
+
 <html lang="zh-CN">
+
+
 
 <head>
 
+
+
 <meta charset="UTF-8">
+
+
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
+
 <title>🎀 路亚智选 ✿ 小月の路亚助手</title>
 
+
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 
 
 
@@ -18,95 +38,191 @@
 
 
 
+
+
+
+
 <style>
+
+
 
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap');
 
+
+
   :root {
+
+
 
     --pk: #ff8da1;
 
+
+
     --pk-light: #ffb7c5;
+
+
 
     --pk-lighter: #ffe4ec;
 
+
+
     --pk-bg: #fff0f5;
+
+
 
     --sky: #87ceeb;
 
+
+
     --sky-light: #b3dff5;
+
+
 
     --sky-bg: #e8f4fd;
 
+
+
     --mint: #b5ead7;
+
+
 
     --mint-light: #d4f5e7;
 
+
+
     --lav: #c3b1e1;
+
+
 
     --lav-light: #e3d6f5;
 
+
+
     --sun: #ffd700;
+
+
 
     --sun-light: #fff3c4;
 
+
+
     --gray-800: #2d2d44;
+
+
 
     --gray-600: #6b7280;
 
+
+
     --gray-400: #9ca3af;
+
+
 
     --gray-200: #e5e7eb;
 
+
+
     --gray-100: #f3f4f6;
+
+
 
     --white: #ffffff;
 
+
+
     --shadow: 0 4px 24px rgba(255,141,161,0.15);
+
+
 
     --shadow-lg: 0 8px 40px rgba(255,141,161,0.2);
 
+
+
     --radius: 20px;
+
+
 
     --radius-sm: 12px;
 
+
+
     --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
 
+
+
   }
+
+
 
   * { margin:0; padding:0; box-sizing:border-box; }
 
+
+
   body {
+
+
 
     font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
 
+
+
     background: linear-gradient(180deg, var(--pk-bg) 0%, var(--sky-bg) 50%, #f0faf0 100%);
+
+
 
     min-height: 100vh;
 
+
+
     color: var(--gray-800);
+
+
 
     overflow-x: hidden;
 
+
+
   }
+
+
+
+
 
 
 
   /* ===== Floating Clouds ===== */
 
+
+
   .clouds { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; overflow:hidden; }
+
+
 
   .cloud { position:absolute; font-size:60px; opacity:0.15; animation: drift 20s linear infinite; }
 
+
+
   .cloud:nth-child(1) { top:5%; left:-10%; font-size:80px; animation-duration:25s; }
+
+
 
   .cloud:nth-child(2) { top:15%; left:-10%; font-size:50px; animation-duration:30s; animation-delay:5s; }
 
+
+
   .cloud:nth-child(3) { top:30%; left:-10%; font-size:70px; animation-duration:22s; animation-delay:10s; }
+
+
 
   .cloud:nth-child(4) { top:50%; left:-10%; font-size:45px; animation-duration:35s; animation-delay:3s; }
 
+
+
   @keyframes drift { from{transform:translateX(-10vw)} to{transform:translateX(110vw)} }
+
+
+
+
 
 
 
@@ -114,1287 +230,3170 @@
 
 
 
+
+
+
+
   /* ===== Anime Header ===== */
+
+
 
   .header {
 
+
+
     background: linear-gradient(135deg, #ffb7c5 0%, #87ceeb 50%, #b5ead7 100%);
+
+
 
     padding: 36px 24px 32px;
 
+
+
     text-align: center;
+
+
 
     position: relative;
 
+
+
     overflow: hidden;
 
+
+
   }
+
+
 
   .header::after {
 
+
+
     content: '';
+
+
 
     position: absolute;
 
+
+
     bottom:0; left:0; right:0;
+
+
 
     height: 20px;
 
+
+
     background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3));
 
+
+
   }
+
+
 
   .header .sparkles { position:absolute; top:10px; right:20px; font-size:24px; opacity:0.6; animation: twinkle 2s ease-in-out infinite; }
 
+
+
   @keyframes twinkle { 0%,100%{opacity:0.3;transform:scale(1)} 50%{opacity:0.8;transform:scale(1.2)} }
+
+
 
   .header-content { position:relative; z-index:1; }
 
+
+
   .header h1 { color:#fff; font-size:34px; font-weight:900; letter-spacing:2px; text-shadow:2px 2px 0 rgba(0,0,0,0.08); }
+
+
 
   .header h1 span { color:#ff6b8a; }
 
+
+
   .header p { color:rgba(255,255,255,0.9); font-size:14px; letter-spacing:2px; }
+
+
 
   .header .badge {
 
+
+
     display:inline-block;
+
+
 
     background: rgba(255,255,255,0.35);
 
+
+
     color: #d6336c;
+
+
 
     padding: 6px 18px;
 
+
+
     border-radius: 30px;
+
+
 
     font-size: 12px;
 
+
+
     margin-top: 10px;
+
+
 
     font-weight: 600;
 
+
+
     backdrop-filter: blur(8px);
+
+
 
     border: 1px solid rgba(255,255,255,0.3);
 
+
+
   }
+
+
+
+
 
 
 
   /* ===== Cards ===== */
 
+
+
   .card {
+
+
 
     background: rgba(255,255,255,0.85);
 
+
+
     backdrop-filter: blur(12px);
+
+
 
     border-radius: var(--radius);
 
+
+
     box-shadow: var(--shadow);
+
+
 
     margin-bottom: 20px;
 
+
+
     overflow: hidden;
 
+
+
     transition: var(--transition);
+
+
 
     border: 1px solid rgba(255,255,255,0.5);
 
+
+
   }
+
+
 
   .card:hover { box-shadow: var(--shadow-lg); }
 
+
+
   
+
+
 
   /* Filter buttons for fish data */
 
+
+
   .filter-btn {
+
+
 
     padding: 8px 18px;
 
+
+
     border-radius: 20px;
+
+
 
     border: 2px solid var(--pk-light);
 
+
+
     background: rgba(255,255,255,0.8);
+
+
 
     color: var(--gray-600);
 
+
+
     font-size: 13px;
+
+
 
     font-weight: 600;
 
+
+
     cursor: pointer;
+
+
 
     transition: var(--transition);
 
+
+
   }
+
+
 
   .filter-btn:hover { border-color: var(--pk); color: #d6336c; }
 
+
+
   .filter-btn.active {
+
+
 
     background: linear-gradient(135deg, var(--pk-light), var(--sky-light));
 
+
+
     border-color: var(--pk);
+
+
 
     color: #d6336c;
 
+
+
     box-shadow: 0 2px 12px rgba(255,141,161,0.3);
+
+
 
   }
 
+
+
   
+
+
 
   /* Stock info cards */
 
+
+
   #fishDataContainer .venue-card {
+
+
 
     background: rgba(255,255,255,0.9);
 
+
+
     border-radius: var(--radius-sm);
+
+
 
     padding: 16px;
 
+
+
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+
+
 
     transition: var(--transition);
 
+
+
   }
+
+
 
   #fishDataContainer .venue-card:hover {
 
+
+
     transform: translateY(-2px);
+
+
 
     box-shadow: 0 4px 20px rgba(255,141,161,0.2);
 
+
+
   }
+
+
 
   
 
+
+
   .card-header {
+
+
 
     padding: 16px 22px;
 
+
+
     font-weight: 700;
+
+
 
     font-size: 16px;
 
+
+
     display: flex;
+
+
 
     align-items: center;
 
+
+
     gap: 10px;
+
+
 
     border-bottom: 1px solid var(--pk-lighter);
 
+
+
     background: linear-gradient(135deg, var(--pk-lighter), var(--sky-bg));
 
+
+
   }
+
+
 
   .card-body { padding: 22px; }
 
 
 
+
+
+
+
   /* ===== Form ===== */
+
+
 
   .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 
+
+
   .form-group { display:flex; flex-direction:column; gap:6px; }
+
+
 
   .form-group.full { grid-column:1/-1; }
 
+
+
   .form-group label { font-size:13px; font-weight:600; color:var(--gray-800); display:flex; align-items:center; gap:6px; }
+
+
 
   .form-group label .hint { font-weight:400; color:var(--gray-400); font-size:11px; }
 
+
+
   .form-group select,.form-group input {
+
+
 
     padding:12px 16px;
 
+
+
     border:2px solid var(--pk-light);
+
+
 
     border-radius:14px;
 
+
+
     font-size:14px;
+
+
 
     color:var(--gray-800);
 
+
+
     background:rgba(255,255,255,0.8);
+
+
 
     transition:var(--transition);
 
+
+
     outline:none;
+
+
 
     font-family:inherit;
 
+
+
   }
+
+
 
   .form-group select:focus,.form-group input:focus { border-color:var(--pk); box-shadow:0 0 0 4px rgba(255,141,161,0.15); }
 
 
 
+
+
+
+
   /* ===== Slider ===== */
+
+
 
   .range-wrap { display:flex; align-items:center; gap:12px; }
 
+
+
   .range-wrap input[type="range"] { flex:1; height:6px; -webkit-appearance:none; appearance:none; background:linear-gradient(to right,var(--pk-light),var(--pk)); border-radius:3px; outline:none; border:none; padding:0; }
 
+
+
   .range-wrap input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:linear-gradient(135deg,var(--pk),#ff6b8a); cursor:pointer; box-shadow:0 2px 8px rgba(255,141,161,0.4); }
+
+
 
   .range-value { min-width:48px; text-align:center; font-weight:700; font-size:15px; color:var(--pk); background:var(--pk-lighter); padding:4px 10px; border-radius:10px; }
 
 
 
+
+
+
+
   /* ===== Fish Tags ===== */
+
+
 
   .fish-tags { display:grid; grid-template-columns:repeat(auto-fill,minmax(82px,1fr)); gap:8px; }
 
+
+
   .fish-tag { padding:8px 6px 6px; border:2px solid var(--pk-light); border-radius:14px; text-align:center; cursor:pointer; transition:var(--transition); font-size:10px; font-weight:600; background:rgba(255,255,255,0.6); color:var(--gray-600); user-select:none; }
+
+
 
   .fish-tag:hover { border-color:var(--pk); background:var(--pk-lighter); transform:translateY(-2px); }
 
+
+
   .fish-tag.selected { border-color:var(--pk); background:var(--pk); color:#fff; box-shadow:0 4px 16px rgba(255,141,161,0.3); }
+
+
 
   .fish-tag .fish-icon { display:block; width:100%; height:36px; margin:0 auto 2px; }
 
 
 
+
+
+
+
   /* ===== Button ===== */
+
+
 
   .btn-analyze {
 
+
+
     width:100%; padding:16px;
+
+
 
     background: linear-gradient(135deg, var(--pk), #ff6b8a, #ff4d6d);
 
+
+
     color:#fff; border:none; border-radius:14px;
+
+
 
     font-size:17px; font-weight:700; cursor:pointer;
 
+
+
     transition:var(--transition); letter-spacing:1px; font-family:inherit;
+
+
 
     display:flex; align-items:center; justify-content:center; gap:8px;
 
+
+
     box-shadow:0 4px 20px rgba(255,77,109,0.3);
+
+
 
   }
 
+
+
   .btn-analyze:hover { transform:translateY(-3px); box-shadow:0 8px 30px rgba(255,77,109,0.4); }
+
+
 
   .btn-analyze:disabled { opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none; }
 
 
 
+
+
+
+
   /* ===== Status Bar ===== */
+
+
 
   .status-bar {
 
+
+
     display:flex; align-items:center; gap:10px;
+
+
 
     padding:14px 20px;
 
+
+
     background: rgba(255,255,255,0.7);
+
+
 
     backdrop-filter: blur(8px);
 
+
+
     border-radius:16px;
+
+
 
     margin-bottom:16px;
 
+
+
     font-size:13px;
+
+
 
     color:var(--gray-600);
 
+
+
     font-weight:500;
+
+
 
     border:1px solid rgba(255,255,255,0.5);
 
+
+
   }
+
+
 
   .status-bar .dot { width:10px; height:10px; border-radius:50%; background:var(--pk); animation:pulse 1.5s infinite; }
 
+
+
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+
 
   .status-bar strong { color:var(--pk); }
 
 
 
+
+
+
+
   /* ===== Map ===== */
+
+
 
   #lureMap { height:480px; border-radius:16px; z-index:1; }
 
+
+
   .map-info {
+
+
 
     padding:14px 18px;
 
+
+
     background: rgba(255,255,255,0.7);
+
+
 
     backdrop-filter: blur(8px);
 
+
+
     border-radius:14px;
+
+
 
     margin-top:12px;
 
+
+
     font-size:13px; line-height:1.6;
+
+
 
     border:1px solid rgba(255,255,255,0.3);
 
+
+
   }
+
+
 
   .map-info strong { color:var(--pk); }
 
+
+
   .selected-water { font-weight:600; color:#ff6b8a; }
+
+
 
   .map-tip { font-size:12px; color:var(--gray-400); margin-top:8px; text-align:center; }
 
+
+
   .loading-overlay {
+
+
 
     position:absolute; top:0; left:0; right:0; bottom:0;
 
+
+
     display:flex; align-items:center; justify-content:center;
+
+
 
     background:rgba(255,255,255,0.6);
 
+
+
     backdrop-filter:blur(4px);
+
+
 
     border-radius:16px;
 
+
+
     z-index:10;
+
+
 
     font-size:14px; color:var(--pk); font-weight:600;
 
+
+
     gap:10px;
+
+
 
   }
 
+
+
   .map-wrap { position:relative; }
 
+
+
   .spinner { width:24px; height:24px; border:3px solid var(--pk-lighter); border-top-color:var(--pk); border-radius:50%; animation:spin 0.8s linear infinite; }
+
+
 
   @keyframes spin { to{transform:rotate(360deg)} }
 
 
 
+
+
+
+
   /* ===== Result ===== */
+
+
 
   .result-section { display:none; }
 
+
+
   .result-section.show { display:block; animation:fadeUp 0.5s ease; }
+
+
 
   @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
+
+
   .result-summary { background:linear-gradient(135deg,var(--pk-lighter),var(--sky-bg)); border-radius:14px; padding:18px; margin-bottom:16px; }
+
+
 
   .result-summary .fish-label { font-size:20px; font-weight:800; color:#d6336c; }
 
+
+
   .result-summary .conditions { color:var(--gray-600); font-size:12px; margin-top:6px; line-height:1.6; }
+
+
 
   .result-summary .score { margin-top:10px; display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.8); padding:5px 14px; border-radius:30px; font-size:13px; font-weight:600; backdrop-filter:blur(4px); }
 
+
+
   .score.good { color:#d6336c; }
 
+
+
   .score.fair { color:#e67e00; }
+
+
 
   .score.poor { color:#999; }
 
 
 
+
+
+
+
   .gear-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+
+
 
   .gear-card { background:rgba(255,255,255,0.6); border-radius:14px; padding:18px; border:1px solid var(--pk-lighter); transition:var(--transition); }
 
+
+
   .gear-card:hover { border-color:var(--pk); transform:translateY(-3px); }
+
+
 
   .gear-card .gear-icon { font-size:30px; margin-bottom:6px; }
 
+
+
   .gear-card .gear-title { font-size:14px; font-weight:700; color:#d6336c; margin-bottom:3px; }
+
+
 
   .gear-card .gear-subtitle { font-size:11px; color:var(--gray-400); margin-bottom:8px; }
 
+
+
   .gear-card .gear-spec { display:flex; flex-wrap:wrap; gap:5px; }
 
+
+
   .gear-card .spec-tag { background:rgba(255,255,255,0.7); padding:4px 10px; border-radius:8px; font-size:11px; font-weight:500; color:var(--gray-600); border:1px solid var(--pk-lighter); }
+
+
 
   .gear-card .spec-tag.highlight { background:var(--pk-lighter); border-color:var(--pk-light); color:#d6336c; }
 
 
 
+
+
+
+
   .lure-section { margin-top:14px; }
+
+
 
   .lure-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 
+
+
   .lure-item { display:flex; align-items:center; gap:12px; padding:12px; background:rgba(255,255,255,0.6); border-radius:12px; border:1px solid var(--pk-lighter); transition:var(--transition); }
+
+
 
   .lure-item:hover { border-color:var(--sun); background:var(--sun-light); }
 
+
+
   .lure-item .lure-icon { font-size:26px; }
+
+
 
   .lure-item .lure-info { flex:1; }
 
+
+
   .lure-item .lure-name { font-weight:600; font-size:13px; color:var(--gray-800); }
 
+
+
   .lure-item .lure-desc { font-size:11px; color:var(--gray-400); margin-top:1px; }
+
+
 
   .lure-item .lure-weight { font-size:11px; font-weight:600; color:var(--pk); background:var(--pk-lighter); padding:2px 10px; border-radius:20px; white-space:nowrap; }
 
 
 
+
+
+
+
   .tips-box { background:var(--sky-bg); border-left:4px solid var(--sky); padding:12px 16px; border-radius:0 12px 12px 0; margin-top:14px; }
+
+
 
   .tips-box .tip-title { font-weight:700; font-size:13px; color:#4a90d9; margin-bottom:3px; }
 
+
+
   .tips-box ul { list-style:none; padding:0; }
 
+
+
   .tips-box ul li { font-size:12px; color:var(--gray-600); padding:3px 0; line-height:1.5; }
+
+
 
   .tips-box ul li::before { content:'🎣 '; }
 
 
 
+
+
+
+
   /* ===== Venues ===== */
+
+
 
   .venue-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; max-height:600px; overflow-y:auto; padding-right:4px; }
 
+
+
   .venue-grid::-webkit-scrollbar { width:6px; }
+
+
 
   .venue-grid::-webkit-scrollbar-thumb { background:var(--pk-light); border-radius:3px; }
 
+
+
   .venue-grid::-webkit-scrollbar-track { background:transparent; }
+
+
 
   .venue-card { background:rgba(255,255,255,0.6); border-radius:14px; padding:14px; border:1px solid var(--pk-lighter); transition:var(--transition); cursor:pointer; }
 
+
+
   .venue-card:hover { border-color:var(--pk); transform:translateY(-2px); box-shadow:0 4px 16px rgba(255,141,161,0.15); }
+
+
 
   .venue-card .venue-name { font-weight:700; font-size:14px; color:#d6336c; }
 
+
+
   .venue-card .venue-meta { font-size:11px; color:var(--gray-600); margin-top:3px; line-height:1.5; }
+
+
 
   .venue-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; }
 
+
+
   .vtag { padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; }
+
+
 
   .vtag.boat { background:var(--sky-bg); color:#4a90d9; }
 
+
+
   .vtag.shore { background:var(--mint-light); color:#2d8a4e; }
 
+
+
   .vtag.price { background:var(--sun-light); color:#b8860b; }
+
+
 
   .venue-card .venue-desc { font-size:11px; color:var(--gray-400); margin-top:4px; }
 
 
 
+
+
+
+
   /* ===== Footer ===== */
+
+
 
   .footer { text-align:center; padding:24px; color:var(--gray-400); font-size:12px; }
 
+
+
   .footer a { color:var(--pk); text-decoration:none; }
+
+
 
   .footer .footer-heart { color:var(--pk); }
 
 
 
+
+
+
+
   /* ===== Responsive ===== */
+
+
 
   @media (max-width:768px) {
 
+
+
     .form-grid,.gear-grid,.venue-grid { grid-template-columns:1fr; }
+
+
 
     .lure-grid { grid-template-columns:1fr; }
 
+
+
     .fish-tags { grid-template-columns:repeat(3,1fr); }
+
+
 
     .header h1 { font-size:24px; }
 
+
+
     .card-body { padding:16px; }
+
+
 
     #lureMap { height:320px; }
 
+
+
   }
+
+
 
   @media (max-width:480px) { .fish-tags { grid-template-columns:repeat(2,1fr); } }
 
 
-  /* ===== 分页导航 ===== */
-  .page-nav {
-    display: flex; gap: 8px; padding: 16px 16px 0;
-    max-width: 1100px; margin: 0 auto; overflow-x: auto;
-    position: relative; z-index: 2;
-  }
-  .page-nav .nav-btn {
-    padding: 10px 20px; border: 2px solid var(--pk-light);
-    border-radius: 16px 16px 0 0;
-    background: rgba(255,255,255,0.6);
-    color: var(--gray-600); font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: var(--transition);
-    white-space: nowrap; font-family: inherit;
-  }
-  .page-nav .nav-btn:hover { background: var(--pk-lighter); color: var(--gray-800); }
-  .page-nav .nav-btn.active {
-    background: linear-gradient(135deg, var(--pk-light), var(--sky-light));
-    color: #d6336c; border-color: var(--pk);
-    box-shadow: 0 -2px 12px rgba(255,141,161,0.2);
-  }
-  .page { display: none; }
-  .page.active { display: block; }
-  .page .container { margin-top: 0; padding-top: 16px; }
 
+.page-nav{display:flex;gap:8px;padding:12px 16px 0;max-width:1100px;margin:0 auto;overflow-x:auto;position:relative;z-index:2}.page-nav .nav-btn{padding:8px 16px;border:2px solid var(--pk-light);border-radius:14px 14px 0 0;background:rgba(255,255,255,0.6);color:var(--gray-600);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;transition:var(--transition)}.page-nav .nav-btn:hover{background:var(--pk-lighter);color:var(--gray-800)}.page-nav .nav-btn.active{background:linear-gradient(135deg,var(--pk-light),var(--sky-light));color:#d6336c;border-color:var(--pk)}.page{display:none}.page.active{display:block}.page .container{margin-top:0;padding-top:16px}
 </style>
 
+
+
 </head>
+
+
 
 <body>
 
 
 
+
+
+
+
 <!-- Floating Clouds -->
+
+
 
 <div class="clouds">
 
-  <div class="cloud">☁️</div>
+
 
   <div class="cloud">☁️</div>
 
-  <div class="cloud">☁️</div>
+
 
   <div class="cloud">☁️</div>
+
+
+
+  <div class="cloud">☁️</div>
+
+
+
+  <div class="cloud">☁️</div>
+
+
 
 </div>
+
+
+
+
 
 
 
 <div class="header">
 
+
+
   <div class="sparkles">✨🌸✨</div>
+
+
 
   <div class="header-content">
 
+
+
     <h1>🎣 路亚<span>智选</span></h1>
+
+
 
     <p>✿ 小月の路亚助手 · 科学选装备，轻松上鱼 ✿</p>
 
+
+
     <div class="badge">🌸 收录136个上海钓场 · 地图选点 · 流域分析 🌸</div>
 
+
+
   </div>
+
+
 
 </div>
 
 
 
+
+
+
+
 <div class="container">
 
+
+
   <div class="page-nav">
-  <button class="nav-btn active" onclick="switchPage('map')">🗺️ 地图选点</button>
-  <button class="nav-btn" onclick="switchPage('condition')">🎯 作钓条件</button>
-  <button class="nav-btn" onclick="switchPage('venues')">🏪 上海钓场</button>
-  <button class="nav-btn" onclick="switchPage('result');
-    document.getElementById('resultTabBtn').style.display = '';
-    switchPage('result');
+    <button class="nav-btn active" onclick="switchPage('map')">🗺️ 地图选点</button>
+    <button class="nav-btn" onclick="switchPage('condition')">🎯 作钓条件</button>
+    <button class="nav-btn" onclick="switchPage('venues')">🏪 上海钓场</button>
+    <button class="nav-btn" onclick="switchPage('result')" id="resultTabBtn" style="display:none">📊 推荐方案</button>
+    <button class="nav-btn" onclick="switchPage('latest')">📰 最新动态</button>
+  </div>
+
+  <div class="status-bar">
+
+
+
+    <span class="dot"></span>
+
+
+
+    引擎已加载 · 15种鱼 · 140个钓场 · ✨ 点击地图选点即可分析
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- Map Card -->
+
+
+
+  <div class="card">
+
+
+
+    <div class="card-header">
+
+
+
+      <span style="font-size:20px;">🗺️</span> 地图选点
+
+
+
+      <span style="margin-left:auto;font-size:11px;color:var(--gray-400);">🗾 点击水域 · 滚轮缩放</span>
+
+
+
+    </div>
+
+
+
+    <div class="card-body">
+
+
+
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+
+
+
+        <input type="text" id="mapSearchInput" placeholder="🔍 搜索地点/钓场..." style="flex:1;padding:10px 16px;border:2px solid var(--pk-light);border-radius:14px;font-size:14px;outline:none;font-family:inherit;" onkeypress="if(event.key==='Enter') searchMap()">
+
+
+
+        <button onclick="searchMap()" style="padding:10px 20px;background:linear-gradient(135deg,var(--pk-light),var(--sky-light));border:2px solid var(--pk);border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;color:#d6336c;">搜索</button>
+
+
+
+      </div>
+
+
+
+      <div id="searchResults" style="display:none;max-height:200px;overflow-y:auto;background:rgba(255,255,255,0.95);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);margin-bottom:12px;"></div>
+
+
+
+      <div class="map-wrap" id="mapWrap">
+
+
+
+        <div id="lureMap"></div>
+
+
+
+      </div>
+
+
+
+      <div class="map-info" id="mapInfo">
+
+
+
+        🌸 <strong>小提示：</strong>点一下地图上的河流、湖泊，自动识别水域类型推荐钓组！<br>
+
+
+
+        📍 当前选点：<span class="selected-water" id="selectedWaterLabel">还没选呢～</span>
+
+
+
+      </div>
+
+
+
+      <div class="map-tip">💕 点击河流、湖泊、水库效果最好哦</div>
+
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- Input Card -->
+
+
+
+  <div class="page active" id="page-map">
+<div class="page" id="page-condition">
+<div class="card">
+
+
+
+    <div class="card-header">
+
+
+
+      <span style="font-size:20px;">📋</span> 作钓条件
+
+
+
+    </div>
+
+
+
+    <div class="card-body">
+
+
+
+      <div class="form-grid">
+
+
+
+        <div class="form-group">
+
+
+
+          <label>🌬️ 气压 <span class="hint">(hPa)</span></label>
+
+
+
+          <div class="range-wrap">
+
+
+
+            <input type="range" id="pressure" min="950" max="1040" value="1010" step="1" oninput="updatePressure()">
+
+
+
+            <span class="range-value" id="pressureVal">1010</span>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+        <div class="form-group">
+
+
+
+          <label>🌡️ 气温 <span class="hint">(℃)</span></label>
+
+
+
+          <div class="range-wrap">
+
+
+
+            <input type="range" id="temperature" min="-5" max="42" value="22" step="1" oninput="updateTemp()">
+
+
+
+            <span class="range-value" id="tempVal">22</span>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+        <div class="form-group">
+
+
+
+          <label>📅 季节</label>
+
+
+
+          <select id="season">
+
+
+
+            <option value="spring">🌱 春</option>
+
+
+
+            <option value="summer" selected>☀️ 夏</option>
+
+
+
+            <option value="fall">🍂 秋</option>
+
+
+
+            <option value="winter">❄️ 冬</option>
+
+
+
+          </select>
+
+
+
+        </div>
+
+
+
+        <div class="form-group">
+
+
+
+          <label>🌊 水流</label>
+
+
+
+          <select id="waterFlow">
+
+
+
+            <option value="still">静水</option>
+
+
+
+            <option value="slow" selected>缓流</option>
+
+
+
+            <option value="fast">急流</option>
+
+
+
+          </select>
+
+
+
+        </div>
+
+
+
+        <div class="form-group">
+
+
+
+          <label>💧 水质</label>
+
+
+
+          <select id="clarity">
+
+
+
+            <option value="clear">清澈</option>
+
+
+
+            <option value="moderate" selected>中等</option>
+
+
+
+            <option value="muddy">浑浊</option>
+
+
+
+          </select>
+
+
+
+        </div>
+
+
+
+        <div class="form-group">
+
+
+
+          <label>🍃 风力</label>
+
+
+
+          <select id="wind">
+
+
+
+            <option value="calm">无风</option>
+
+
+
+            <option value="light" selected>微风</option>
+
+
+
+            <option value="moderate">和风</option>
+
+
+
+            <option value="strong">大风</option>
+
+
+
+          </select>
+
+
+
+        </div>
+
+
+
+        <div class="form-group full">
+
+
+
+          <label>🐟 目标鱼 <span class="hint">（多选）</span></label>
+
+
+
+          <div class="fish-tags" id="fishTags"></div>
+
+
+
+        </div>
+
+
+
+        <div class="form-group">
+
+
+
+          <label>🎯 水平</label>
+
+
+
+          <select id="experience">
+
+
+
+            <option value="beginner">新手</option>
+
+
+
+            <option value="intermediate" selected>进阶</option>
+
+
+
+            <option value="advanced">高手</option>
+
+
+
+          </select>
+
+
+
+        </div>
+
+
+
+        <div class="form-group">
+
+
+
+          <label>🏞️ 水域 <span class="hint">地图选点自动填</span></label>
+
+
+
+          <select id="waterType">
+
+
+
+            <option value="river">江河</option>
+
+
+
+            <option value="lake" selected>湖泊</option>
+
+
+
+            <option value="stream">溪流</option>
+
+
+
+            <option value="pond">池塘</option>
+
+
+
+            <option value="sea">海水</option>
+
+
+
+          </select>
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+      <div style="margin-top:18px;">
+
+
+
+        <button class="btn-analyze" id="analyzeBtn" onclick="analyze()">
+
+
+
+          🎀 开始分析 · 选装备啦 ✨
+
+
+
+        </button>
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- Shanghai Venues Card -->
+
+
+
+  <div class="page" id="page-venues">
+<div class="card">
+
+
+
+    <div class="card-header">
+
+
+
+      <span style="font-size:20px;">🏙️</span> 🏙️ 上海路亚钓场 <span style="font-size:12px;color:var(--gray-400);font-weight:400;">（136个）</span>
+
+
+
+      <span style="margin-left:auto;font-size:11px;color:var(--gray-400);">💕 点击卡片定位到地图</span>
+
+
+
+    </div>
+
+
+
+    <div class="card-body">
+
+
+
+      <div style="display:flex;gap:10px;margin-bottom:12px;">
+
+
+
+        <input type="text" id="venueSearch" placeholder="🔍 搜索钓场名称、区域、鱼种..." oninput="filterVenues(this.value)"
+
+
+
+          style="flex:1;padding:10px 14px;border:2px solid var(--pk-light);border-radius:12px;font-size:13px;outline:none;font-family:inherit;">
+
+
+
+      </div>
+
+
+
+      <div class="venue-grid" id="venueGrid"></div>
+
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- Result Card -->
+
+
+
+  <div class="result-section" id="resultSection">
+
+
+
+    <div class="page" id="page-result">
+<div class="card">
+
+
+
+      <div class="card-header">
+
+
+
+        <span style="font-size:20px;">🏆</span> 推荐方案 ✨
+
+
+
+        <span style="margin-left:auto;font-size:12px;color:var(--gray-400);font-weight:400;" id="analysisTime"></span>
+
+
+
+      </div>
+
+
+
+      <div class="card-body" id="resultContent"></div>
+
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <div class="footer">
+
+
+
+    <p>🎣 路亚智选 · Made with <span class="footer-heart">💕</span> by 小月</p>
+
+
+
+    <p>地图 © OpenStreetMap · 钓场信息仅供参考 🐟</p>
+
+
+
+  </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<script>
+function switchPage(p) {
+  var pages = document.querySelectorAll(".page");
+  for (var i=0; i<pages.length; i++) pages[i].classList.remove("active");
+  var btns = document.querySelectorAll(".nav-btn");
+  for (var i=0; i<btns.length; i++) btns[i].classList.remove("active");
+  var el = document.getElementById("page-"+p);
+  if (el) el.classList.add("active");
+  var names = {map:"\u5730\u56fe",condition:"\u4f5c\u9493",venues:"\u9493\u573a",result:"\u63a8\u8350",latest:"\u52a8\u6001"};
+  for (var i=0; i<btns.length; i++) {
+    if (btns[i].textContent.indexOf(names[p]||"")>=0) btns[i].classList.add("active");
+  }
+  if (p==="result") {
+    var rs = document.getElementById("resultSection");
+    if (rs) rs.style.display="block";
   }
 }
+var BRANDS={
+  "\u9c88\u9c7c":{hard:["Megabass Vision 110","OSP DoLive Stick","Raid Japan Wave Worm"],soft:["Gary Yamamoto Senko 5\"","Keitech Swing Impact 4.8\"","OSP HighCut 2.0","Raid Japan BigBite"],top:["Megabass Pop-X","OSP Bent Minnow 115F","Raid Japan Splash"],crank:["Megabass Deep-X 300","OSP Rudra 130S","Raid Japan Crayfish"]},
+  "\u7fd8\u5634":{hard:["OSP Rudra 130S","Megabass Vision ONETEN"],soft:["Raid Japan BigBite","OSP HighCut 3.5\"","Keitech Swing Impact"],top:["OSP Bent Minnow 115F","Megabass Pop Max"],crank:["Megabass X-120","OSP Rudra 130F"]},
+  "default":{hard:["Megabass Vision 110","OSP DoLive Stick","Jackall Flick Shake"],soft:["Gary Yamamoto Senko","Keitech Swing Impact","OSP HighCut"],top:["Megabass Pop-X","OSP Bent Minnow"],crank:["Megabass Deep-X","OSP Rudra"]}
+};
+
+
 
 
 // ============================================================
+
+
 
 // FISH KNOWLEDGE ENGINE (15种鱼)
 
+
+
 // ============================================================
+
+
 
 // 可爱配色 — 香饼呀风 ✿
 
+
+
 const FC = {
+
+
 
   bass:'#ff8da1', mandarin:'#ffb347', culter:'#87ceeb', snakehead:'#b5ead7',
 
+
+
   minnow:'#c3b1e1', redtail:'#ff6b6b', yellowcheek:'#ffd700', tilapia:'#90d4b9',
+
+
 
   catfish:'#a8a8a8', snapper:'#7ec8e3',
 
+
+
   palechub:'#e8a0bf', barbel:'#d4a574', trout:'#ff9f7c', whitebait:'#b8d4e3', cyprinid:'#b0c4de'
 
+
+
 };
+
+
+
+
 
 
 
 // 香饼呀风 独特鱼种图标 ✿ 每种鱼不同形状！
 
+
+
 function makeFishIcon(key) {
+
+
 
   const c = FC[key]||'#ff8da1';
 
+
+
   const svg = (body) => `<svg viewBox="0 0 64 56" class="fish-icon"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${c};stop-opacity:0.85"/><stop offset="100%" style="stop-color:${c};stop-opacity:1"/></linearGradient></defs>${body}</svg>`;
+
+
 
   const patterns = {
 
+
+
     // 鲈鱼 — 大嘴、高背鳍、典型的鲈科身形
+
+
 
     bass: svg(`<ellipse cx="26" cy="28" rx="16" ry="11" fill="url(#g)"/><path d="M42,28 Q50,20 48,28 Q50,36 42,28Z" fill="url(#g)" opacity="0.8"/><path d="M20,18 Q26,10 32,18Z" fill="url(#g)" opacity="0.7"/><path d="M10,28 Q4,20 8,28 Q4,36 10,28Z" fill="url(#g)" opacity="0.5"/><circle cx="17" cy="25" r="4" fill="white"/><circle cx="16" cy="24" r="2.2" fill="#3d3d5c"/><circle cx="15.5" cy="23.5" r="0.8" fill="white"/><ellipse cx="12" cy="30" rx="3" ry="1.5" fill="#ffb7c5" opacity="0.6"/>`),
 
+
+
     // 鳜鱼 — 圆身、大斑纹、宽嘴巴
+
+
 
     mandarin: svg(`<ellipse cx="28" cy="28" rx="17" ry="13" fill="url(#g)"/><path d="M45,28 Q52,20 50,28 Q52,36 45,28Z" fill="url(#g)" opacity="0.8"/><circle cx="22" cy="24" r="1.5" fill="white" opacity="0.3"/><circle cx="26" cy="20" r="1" fill="white" opacity="0.3"/><circle cx="30" cy="26" r="1.8" fill="white" opacity="0.3"/><circle cx="35" cy="22" r="1.2" fill="white" opacity="0.3"/><path d="M8,30 Q6,26 10,28Z" fill="url(#g)" opacity="0.8"/><circle cx="20" cy="25" r="4" fill="white"/><circle cx="19" cy="24" r="2.2" fill="#3d3d5c"/><circle cx="18.5" cy="23.5" r="0.8" fill="white"/>`),
 
+
+
     // 翘嘴 — 向上翘的嘴、修长身、叉尾
+
+
 
     culter: svg(`<ellipse cx="24" cy="28" rx="14" ry="9" fill="url(#g)"/><path d="M38,28 Q48,18 44,28 Q48,38 38,28Z" fill="url(#g)" opacity="0.8"/><path d="M12,20 L8,16 L10,22Z" fill="url(#g)" opacity="0.7"/><ellipse cx="17" cy="25" r="3.5" fill="white"/><circle cx="16" cy="24" r="2" fill="#3d3d5c"/><circle cx="15.5" cy="23.5" r="0.7" fill="white"/><path d="M8,28 Q4,26 6,28 Q4,30 8,28Z" fill="url(#g)" opacity="0.6"/>`),
 
+
+
     // 黑鱼 — 蛇形长身、扁头、大嘴
+
+
 
     snakehead: svg(`<ellipse cx="28" cy="28" rx="20" ry="8" fill="url(#g)"/><ellipse cx="10" cy="28" rx="6" ry="9" fill="url(#g)" opacity="0.9"/><path d="M48,28 Q56,20 54,28 Q56,36 48,28Z" fill="url(#g)" opacity="0.8"/><path d="M22,20 Q28,14 32,20Z" fill="url(#g)" opacity="0.6"/><circle cx="12" cy="25" r="3.5" fill="white"/><circle cx="11" cy="24" r="2" fill="#3d3d5c"/><circle cx="10.5" cy="23.5" r="0.7" fill="white"/><ellipse cx="8" cy="32" rx="2" ry="1" fill="#ffb7c5" opacity="0.6"/>`),
 
+
+
     // 马口 — 小身形、特大嘴巴（特征：马口 = 大嘴）
+
+
 
     minnow: svg(`<ellipse cx="22" cy="28" rx="12" ry="8" fill="url(#g)"/><path d="M34,28 Q40,22 38,28 Q40,34 34,28Z" fill="url(#g)" opacity="0.8"/><path d="M14,20 L8,16 L12,24Z" fill="url(#g)" opacity="0.7"/><circle cx="15" cy="25" r="3.5" fill="white"/><circle cx="14" cy="24" r="2" fill="#3d3d5c"/><circle cx="13.5" cy="23.5" r="0.7" fill="white"/><ellipse cx="10" cy="30" rx="3" ry="1.5" fill="#ffb7c5" opacity="0.6"/>`),
 
+
+
     // 红尾 — 修长身、红色大叉尾（特征：红色尾）
+
+
 
     redtail: svg(`<ellipse cx="22" cy="28" rx="13" ry="8" fill="url(#g)"/><path d="M35,28 Q46,16 43,28 Q46,40 35,28Z" fill="#ff6b6b" opacity="0.85"/><circle cx="15" cy="25" r="3.5" fill="white"/><circle cx="14" cy="24" r="2" fill="#3d3d5c"/><circle cx="13.5" cy="23.5" r="0.7" fill="white"/><path d="M12,20 Q10,18 14,22Z" fill="url(#g)" opacity="0.6"/>`),
 
+
+
     // 鳡鱼 — 鱼雷身形、大嘴尖牙、巨大
+
+
 
     yellowcheek: svg(`<ellipse cx="28" cy="28" rx="20" ry="10" fill="url(#g)"/><path d="M48,28 Q56,18 54,28 Q56,38 48,28Z" fill="url(#g)" opacity="0.8"/><path d="M12,20 L6,14 L10,24Z" fill="url(#g)" opacity="0.8"/><path d="M22,18 Q28,12 34,18Z" fill="url(#g)" opacity="0.6"/><circle cx="18" cy="25" r="4" fill="white"/><circle cx="17" cy="24" r="2.3" fill="#3d3d5c"/><circle cx="16.5" cy="23.5" r="0.8" fill="white"/>`),
 
+
+
     // 罗非 — 圆盘身、厚实、圆尾
+
+
 
     tilapia: svg(`<ellipse cx="28" cy="28" rx="15" ry="14" fill="url(#g)"/><path d="M43,28 Q50,22 48,28 Q50,34 43,28Z" fill="url(#g)" opacity="0.7"/><path d="M22,15 Q28,8 34,15Z" fill="url(#g)" opacity="0.7"/><path d="M22,42 Q28,48 34,42Z" fill="url(#g)" opacity="0.6"/><circle cx="20" cy="25" r="4" fill="white"/><circle cx="19" cy="24" r="2.2" fill="#3d3d5c"/><circle cx="18.5" cy="23.5" r="0.8" fill="white"/><ellipse cx="16" cy="32" rx="3" ry="1.5" fill="#ffb7c5" opacity="0.6"/>`),
 
+
+
     // 鲶鱼 — 扁头宽嘴、胡须两条、长身
+
+
 
     catfish: svg(`<ellipse cx="26" cy="28" rx="16" ry="10" fill="url(#g)"/><ellipse cx="12" cy="28" rx="7" ry="11" fill="url(#g)" opacity="0.9"/><path d="M42,28 Q50,20 48,28 Q50,36 42,28Z" fill="url(#g)" opacity="0.8"/><path d="M6,24 Q2,20 4,26" stroke="url(#g)" stroke-width="1.5" fill="none"/><path d="M6,32 Q2,36 4,32" stroke="url(#g)" stroke-width="1.5" fill="none"/><circle cx="13" cy="25" r="3" fill="white"/><circle cx="12" cy="24" r="1.8" fill="#3d3d5c"/><circle cx="11.5" cy="23.5" r="0.6" fill="white"/>`),
 
+
+
     // 海鲈 — 修长带条纹、硬鳍
+
+
 
     snapper: svg(`<ellipse cx="24" cy="28" rx="14" ry="9" fill="url(#g)"/><path d="M38,28 Q46,20 44,28 Q46,36 38,28Z" fill="url(#g)" opacity="0.8"/><path d="M18,19 Q24,12 30,19Z" fill="url(#g)" opacity="0.7"/><path d="M18,37 Q24,44 30,37Z" fill="url(#g)" opacity="0.6"/><circle cx="16" cy="25" r="3.5" fill="white"/><circle cx="15" cy="24" r="2" fill="#3d3d5c"/><circle cx="14.5" cy="23.5" r="0.7" fill="white"/><line x1="22" y1="18" x2="22" y2="14" stroke="white" stroke-width="0.8" opacity="0.4"/><line x1="24" y1="18" x2="24" y2="13" stroke="white" stroke-width="0.8" opacity="0.4"/>`),
 
+
+
     // 溪哥 — 小巧玲珑、发色艳丽、圆身
+
+
 
     palechub: svg(`<ellipse cx="20" cy="28" rx="11" ry="9" fill="url(#g)"/><path d="M31,28 Q36,22 34,28 Q36,34 31,28Z" fill="url(#g)" opacity="0.8"/><path d="M14,20 Q20,14 24,20Z" fill="url(#g)" opacity="0.7"/><circle cx="13" cy="25" r="3.2" fill="white"/><circle cx="12" cy="24" r="1.8" fill="#3d3d5c"/><circle cx="11.5" cy="23.5" r="0.6" fill="white"/><ellipse cx="9" cy="30" rx="2.5" ry="1.2" fill="#ffb7c5" opacity="0.6"/><ellipse cx="24" cy="20" rx="3" ry="1" fill="white" opacity="0.2"/>`),
 
+
+
     // 军鱼 — 流线型、小胡子、强健
+
+
 
     barbel: svg(`<ellipse cx="26" cy="28" rx="16" ry="9" fill="url(#g)"/><path d="M42,28 Q50,20 48,28 Q50,36 42,28Z" fill="url(#g)" opacity="0.8"/><path d="M20,19 Q26,13 32,19Z" fill="url(#g)" opacity="0.7"/><path d="M11,24 Q8,20 10,26" stroke="url(#g)" stroke-width="1" fill="none"/><path d="M11,32 Q8,36 10,32" stroke="url(#g)" stroke-width="1" fill="none"/><circle cx="17" cy="25" r="3.5" fill="white"/><circle cx="16" cy="24" r="2" fill="#3d3d5c"/><circle cx="15.5" cy="23.5" r="0.7" fill="white"/>`),
 
+
+
     // 鳟鱼 — 斑点、脂鳍、彩虹色
+
+
 
     trout: svg(`<ellipse cx="24" cy="28" rx="14" ry="9" fill="url(#g)"/><path d="M38,28 Q46,20 44,28 Q46,36 38,28Z" fill="url(#g)" opacity="0.8"/><ellipse cx="28" cy="19" rx="3" ry="5" fill="url(#g)" opacity="0.7"/><circle cx="22" cy="24" r="1" fill="#ff9999" opacity="0.4"/><circle cx="26" cy="22" r="0.8" fill="#ff9999" opacity="0.4"/><circle cx="30" cy="26" r="1.2" fill="#ff9999" opacity="0.4"/><circle cx="34" cy="23" r="0.8" fill="#ff9999" opacity="0.4"/><circle cx="16" cy="25" r="3.5" fill="white"/><circle cx="15" cy="24" r="2" fill="#3d3d5c"/><circle cx="14.5" cy="23.5" r="0.7" fill="white"/><ellipse cx="12" cy="30" rx="3" ry="1.5" fill="#ffb7c5" opacity="0.6"/>`),
 
+
+
     // 白条 — 极细长、针形、尖尾
+
+
 
     whitebait: svg(`<ellipse cx="20" cy="28" rx="17" ry="5" fill="url(#g)"/><path d="M37,28 Q44,22 42,28 Q44,34 37,28Z" fill="url(#g)" opacity="0.8"/><circle cx="14" cy="26" r="2.5" fill="white"/><circle cx="13.5" cy="25.5" r="1.5" fill="#3d3d5c"/><circle cx="13" cy="25" r="0.5" fill="white"/><path d="M16,30 L12,34 L14,30Z" fill="url(#g)" opacity="0.5"/>`),
 
+
+
     // 青稍 — 修长、微翘嘴、青色
+
+
 
     cyprinid: svg(`<ellipse cx="22" cy="28" rx="13" ry="8" fill="url(#g)"/><path d="M35,28 Q42,20 40,28 Q42,36 35,28Z" fill="url(#g)" opacity="0.8"/><path d="M11,22 L8,18 L10,24Z" fill="url(#g)" opacity="0.7"/><circle cx="15" cy="25" r="3.2" fill="white"/><circle cx="14" cy="24" r="1.8" fill="#3d3d5c"/><circle cx="13.5" cy="23.5" r="0.6" fill="white"/><path d="M10,28 Q6,26 8,28 Q6,30 10,28Z" fill="url(#g)" opacity="0.5"/>`)
 
+
+
   };
+
+
 
   return patterns[key] || patterns.bass;
 
+
+
 }
+
+
+
+
 
 
 
 const FK = {
 
+
+
   bass:{name:'鲈鱼',color:'#ff8da1',accent:'#ff6b8a',waterLayer:'中上层/结构区',bestTemp:'18-28℃',habits:'喜欢结构区（倒树、岩石、水草边），攻击性强。窗口期清晨和黄昏。',rod:{power:'M/MH',action:'快调/超快调',length:'1.98-2.13m',castingType:'枪柄/直柄'},reel:{type:'水滴轮/纺车轮',ratio:'高速比7.0-8.0:1',lineCapacity:'PE1.0-1.5号,2000-3000型'},lures:[{name:'德州钓组',icon:'🐛',weight:'5-15g',desc:'跳底，结构区'},{name:'复合亮片',icon:'✨',weight:'7-14g',desc:'快速搜索'},{name:'水面拖拉机',icon:'🚜',weight:'10-20g',desc:'水面系'},{name:'倒吊钓组',icon:'🪱',weight:'5-10g',desc:'精细作钓'}],pressureEffect:'高气压(1005-1025hPa)最佳',pressureScore:p=>p>=1005&&p<=1025?90:p<990?30:65},
+
+
 
   mandarin:{name:'鳜鱼',color:'#ffb347',accent:'#ff8c00',waterLayer:'底层/障碍区',bestTemp:'15-25℃',habits:'伏击型，躲石头缝、桥墩。咬口轻，需要高感度装备。',rod:{power:'L/ML',action:'超快调/快调',length:'1.8-2.1m',castingType:'直柄(纺车)更佳'},reel:{type:'纺车轮首选',ratio:'中高速6.5-7.5:1',lineCapacity:'PE0.6-1.0号,1000-2000型'},lures:[{name:'铅头钩+卷尾',icon:'🪱',weight:'3-10g',desc:'跳底神饵'},{name:'德州钓组',icon:'🐛',weight:'3-10g',desc:'防挂障碍区'},{name:'VIB',icon:'📳',weight:'5-10g',desc:'震动吸引'},{name:'小胖Crank',icon:'🏐',weight:'5-12g',desc:'深潜磕底'}],pressureEffect:'中高压(1000-1020hPa)较佳',pressureScore:p=>p>=1000&&p<=1020?85:p<990?35:60},
 
+
+
   culter:{name:'翘嘴',color:'#87ceeb',accent:'#5babd8',waterLayer:'中上层/水面',bestTemp:'15-30℃',habits:'中上层，早晚窗口期活跃，远投搜索。气压上升期疯狂摄食。',rod:{power:'ML/M',action:'快调/中快调',length:'2.1-2.4m',castingType:'直柄(纺车)远投优'},reel:{type:'纺车2000-2500型',ratio:'中高速6.5-7.5:1',lineCapacity:'PE1.0-1.2号,150-200m'},lures:[{name:'亮片',icon:'💫',weight:'5-15g',desc:'远投利器'},{name:'米诺',icon:'🐟',weight:'7-14g',desc:'匀速回收'},{name:'波爬',icon:'💦',weight:'7-14g',desc:'水面抽停'},{name:'VIB',icon:'📳',weight:'7-15g',desc:'全水层搜索'}],pressureEffect:'气压上升期最佳',pressureScore:p=>p>=1000&&p<=1020?85:p<990?40:65},
+
+
 
   snakehead:{name:'黑鱼',color:'#b5ead7',accent:'#6bc4a0',waterLayer:'表层/草区',bestTemp:'20-32℃',habits:'凶猛捕食者，水草密集区、荷叶下。雷强打黑专用，护仔期攻击性最强。',rod:{power:'H/XH',action:'快调',length:'2.1-2.4m',castingType:'枪柄(雷强竿)'},reel:{type:'鼓轮/强力水滴轮',ratio:'低速5.0-6.3:1',lineCapacity:'PE4-6号,大力马线'},lures:[{name:'雷蛙',icon:'🐸',weight:'10-25g',desc:'水面草区'},{name:'软虫无铅',icon:'🐛',weight:'7-15g',desc:'配粗钩过障碍'},{name:'之字狗',icon:'🐕',weight:'10-20g',desc:'Z字走位'}],pressureEffect:'高气压水面攻击积极',pressureScore:p=>p>=1000&&p<=1025?80:p<985?30:55},
 
+
+
   minnow:{name:'马口',color:'#c3b1e1',accent:'#a88bd4',waterLayer:'中上层/溪流',bestTemp:'10-25℃',habits:'小型溪流鱼，群居。喜欢清澈流水浅滩，攻击小型拟饵。微物入门鱼种。',rod:{power:'UL/L',action:'慢调/中快调',length:'1.5-1.8m',castingType:'直柄(纺车)'},reel:{type:'纺车500-1000型',ratio:'低速4.5-5.5:1',lineCapacity:'PE0.4-0.6号'},lures:[{name:'小型亮片',icon:'✨',weight:'1.5-3.5g',desc:'溪流王者'},{name:'微物米诺',icon:'🐟',weight:'2-4g',desc:'变速搜索'},{name:'飞蝇钩',icon:'🪰',weight:'1-2g',desc:'精细作钓'}],pressureEffect:'影响较小',pressureScore:p=>p>=1000?80:60},
+
+
 
   redtail:{name:'红尾',color:'#ff6b6b',accent:'#e05555',waterLayer:'中上层',bestTemp:'16-28℃',habits:'攻击迅猛，喜欢流动水域追捕小鱼。对快速移动的饵反应强烈。',rod:{power:'ML/M',action:'快调',length:'2.1-2.4m',castingType:'直柄/枪柄'},reel:{type:'纺车2500型',ratio:'中高速6.5-7.5:1',lineCapacity:'PE1.0-1.2号'},lures:[{name:'亮片',icon:'💫',weight:'5-12g',desc:'快速匀收'},{name:'VIB',icon:'📳',weight:'7-12g',desc:'全泳层'},{name:'米诺',icon:'🐟',weight:'7-12g',desc:'变速回收'}],pressureEffect:'气压上升期活性高',pressureScore:p=>p>=1000&&p<=1020?85:p<990?35:60},
 
+
+
   yellowcheek:{name:'鳡鱼',color:'#ffd700',accent:'#e6b800',waterLayer:'中上层/水面',bestTemp:'18-30℃',habits:'淡水霸主，爆发力极强。需要强力装备暴力操控。',rod:{power:'MH/H',action:'快调/中快调',length:'2.4-2.7m',castingType:'枪柄或直柄(大纺车)'},reel:{type:'纺车4000-5000型',ratio:'高速7.0-8.0:1',lineCapacity:'PE2.0-4.0号'},lures:[{name:'大型米诺/波爬',icon:'🐟',weight:'15-30g',desc:'水面远投'},{name:'大型铅笔',icon:'✏️',weight:'15-30g',desc:'之字走法'},{name:'铁板',icon:'⛏️',weight:'20-40g',desc:'暴力远投'},{name:'复合亮片',icon:'✨',weight:'15-25g',desc:'快速搜索'}],pressureEffect:'高气压开阔水域活跃',pressureScore:p=>p>=1005&&p<=1025?85:p<990?30:55},
+
+
 
   tilapia:{name:'罗非',color:'#90d4b9',accent:'#6bc4a0',waterLayer:'中下层/巢区',bestTemp:'25-35℃',habits:'耐高温，繁殖期公鱼筑巢攻击性极强。低于15℃停食。',rod:{power:'UL/L',action:'快调/超快调',length:'1.8-2.1m',castingType:'直柄(纺车)'},reel:{type:'纺车1000型',ratio:'低速5.0-6.0:1',lineCapacity:'PE0.6-0.8号'},lures:[{name:'小型亮片',icon:'✨',weight:'2-5g',desc:'刺激攻击'},{name:'微型软饵',icon:'🪱',weight:'2-5g',desc:'精细'},{name:'小型米诺',icon:'🐟',weight:'3-6g',desc:'慢速回收'}],pressureEffect:'高温高气压最佳',pressureScore:p=>p>=1005&&p<=1025?80:p<990?30:55},
 
+
+
   catfish:{name:'鲶鱼',color:'#a8a8a8',accent:'#8a8a8a',waterLayer:'底层/深水',bestTemp:'20-30℃',habits:'底层伏击，深水区、涵洞。夜行性，阴雨天活性高。',rod:{power:'MH',action:'中快调/快调',length:'2.1-2.4m',castingType:'枪柄或直柄'},reel:{type:'水滴/纺车3000-4000型',ratio:'中速6.0-7.0:1',lineCapacity:'PE2.0-3.0号'},lures:[{name:'德州软虫',icon:'🐛',weight:'10-20g',desc:'底跳搜索'},{name:'VIB',icon:'📳',weight:'10-20g',desc:'震动吸引'},{name:'大型软饵',icon:'🪱',weight:'15-25g',desc:'模仿泥鳅'}],pressureEffect:'低气压阴雨天反而活跃',pressureScore:p=>p<=1005?80:50},
+
+
 
   snapper:{name:'海鲈',color:'#7ec8e3',accent:'#5babd8',waterLayer:'中上层/礁石区',bestTemp:'15-26℃',habits:'海水路亚代表，爆发力强。礁石区、防波堤、河口。洄游性，季节性强。',rod:{power:'M/MH',action:'快调/中快调',length:'2.4-3.0m',castingType:'枪柄或直柄'},reel:{type:'纺车3000-4000型',ratio:'中高速6.5-7.5:1',lineCapacity:'PE1.5-2.5号'},lures:[{name:'铁板',icon:'⛏️',weight:'15-30g',desc:'远投深水'},{name:'米诺',icon:'🐟',weight:'10-20g',desc:'中上层回收'},{name:'波爬',icon:'💦',weight:'10-25g',desc:'水面激浪'},{name:'铅头钩+软饵',icon:'🪱',weight:'10-20g',desc:'跳底礁石'}],pressureEffect:'稳定中压+潮汐更重要',pressureScore:p=>p>=1000&&p<=1020?80:p<985?35:55},
 
+
+
   // ====== 新增5种鱼 ✿ ======
+
+
 
   palechub:{name:'溪哥',color:'#e8a0bf',accent:'#d480a5',waterLayer:'中上层/溪流',bestTemp:'12-24℃',habits:'溪流精灵，发色艳丽。喜欢清澈激流浅滩，对小型亮片疯狂追逐。路亚微物代表鱼种。',rod:{power:'UL/L',action:'慢调/中快调',length:'1.5-1.8m',castingType:'直柄(纺车)'},reel:{type:'纺车500-800型',ratio:'低速4.5-5.0:1',lineCapacity:'PE0.2-0.4号/尼龙2-3lb'},lures:[{name:'微型亮片',icon:'✨',weight:'1-2.5g',desc:'溪哥最爱'},{name:'飞蝇钩',icon:'🪰',weight:'0.5-2g',desc:'精口首选'},{name:'小型浮水米诺',icon:'🐟',weight:'1.5-3g',desc:'缓流搜索'}],pressureEffect:'影响较小，水质清澈度更关键',pressureScore:p=>p>=1000?80:60},
 
+
+
   barbel:{name:'军鱼',color:'#d4a574',accent:'#bf8f5e',waterLayer:'中下层/激流',bestTemp:'18-28℃',habits:'淡水大力士，拉力极强。喜欢激流区、乱石底。吃口凶猛，中鱼后爆发力惊人，需要强力装备。',rod:{power:'ML/M',action:'快调/中快调',length:'1.9-2.2m',castingType:'直柄或枪柄'},reel:{type:'纺车2000型/水滴轮',ratio:'中速6.0-7.0:1',lineCapacity:'PE0.8-1.2号,碳线前导'},lures:[{name:'亮片',icon:'💫',weight:'5-10g',desc:'抗流搜索'},{name:'VIB',icon:'📳',weight:'5-12g',desc:'震动吸引'},{name:'米诺',icon:'🐟',weight:'5-10g',desc:'匀收或小抽'},{name:'小胖',icon:'🏐',weight:'5-10g',desc:'深潜磕底'}],pressureEffect:'高气压+流水时活性最高',pressureScore:p=>p>=1000&&p<=1020?85:p<990?40:60},
+
+
 
   trout:{name:'鳟鱼',color:'#ff9f7c',accent:'#e8845e',waterLayer:'中上层/冷水',bestTemp:'8-20℃',habits:'冷水鱼，对水质要求极高。视觉敏锐，胆小谨慎。需要自然色系饵和精细操控。拉力持久。',rod:{power:'UL/L/ML',action:'中快调/慢调',length:'1.8-2.1m',castingType:'直柄(纺车)'},reel:{type:'纺车1000-2000型',ratio:'中低速5.0-6.0:1',lineCapacity:'PE0.4-0.8号/尼龙4-6lb'},lures:[{name:'微型亮片/旋转亮片',icon:'✨',weight:'2-5g',desc:'自然色系'},{name:'小胖/Crank',icon:'🏐',weight:'3-7g',desc:'深潜搜索'},{name:'飞蝇钩',icon:'🪰',weight:'1-3g',desc:'精口绝杀'},{name:'小型米诺',icon:'🐟',weight:'3-6g',desc:'慢速回收'}],pressureEffect:'气压稳定时效果最好',pressureScore:p=>p>=1000&&p<=1020?80:p<990?40:60},
 
+
+
   whitebait:{name:'白条',color:'#b8d4e3',accent:'#9abfcf',waterLayer:'中上层/水面',bestTemp:'15-30℃',habits:'小型群居鱼种，数量多分布广。喜欢在水面追逐小型拟饵，是新手入门的好选择。',rod:{power:'UL',action:'中快调/慢调',length:'1.5-1.8m',castingType:'直柄(纺车)'},reel:{type:'纺车500-800型',ratio:'低速4.5-5.0:1',lineCapacity:'PE0.2-0.4号'},lures:[{name:'超小型亮片',icon:'✨',weight:'1-2.5g',desc:'水面快收'},{name:'飞蝇钩',icon:'🪰',weight:'0.5-1.5g',desc:'精口利器'},{name:'微型米诺',icon:'🐟',weight:'1-2g',desc:'水面系'}],pressureEffect:'影响较小，晴天中午更活跃',pressureScore:p=>p>=1000?80:60},
 
+
+
   cyprinid:{name:'青稍',color:'#b0c4de',accent:'#8fa8c7',waterLayer:'中上层',bestTemp:'15-28℃',habits:'翘嘴近亲，体型较小但攻击性强。喜欢群居，在流动水域中上层追捕小鱼。',rod:{power:'UL/L/ML',action:'快调/中快调',length:'1.8-2.1m',castingType:'直柄(纺车)或枪柄'},reel:{type:'纺车1000-2000型',ratio:'中速5.5-6.5:1',lineCapacity:'PE0.4-0.8号'},lures:[{name:'小型亮片',icon:'💫',weight:'2-5g',desc:'匀收搜索'},{name:'微型米诺',icon:'🐟',weight:'3-6g',desc:'变速回收'},{name:'VIB',icon:'📳',weight:'3-7g',desc:'全泳层'}],pressureEffect:'气压上升期活性高',pressureScore:p=>p>=1000&&p<=1020?80:p<990?40:60}
+
+
 
 };
 
 
 
+
+
+
+
 // ============================================================
+
+
 
 // VENUES (136个上海路亚钓场) — 直接内联，无需外部fetch
 
+
+
 // ============================================================
+
+
 
 const SV = [
 
+
+
   // 嘉定
+
+
 
   {n:'探野星空(外冈)',la:31.38,lo:121.18,a:'嘉定外冈镇',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'外冈区域钓场'},
 
+
+
   {n:'滑尚庄园路亚',la:31.35,lo:121.20,a:'嘉定区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'庄园式钓场'},
+
+
 
   {n:'约友乐垂钓中心',la:31.36,lo:121.22,a:'嘉定区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'社交型'},
 
+
+
   {n:'灿白垂钓园',la:31.32,lo:121.19,a:'嘉定区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'嘉定钓场'},
+
+
 
   {n:'华亭路亚',la:31.42,lo:121.25,a:'嘉定华亭镇',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'嘉定北部'},
 
+
+
   {n:'相悦宝泽路亚',la:31.30,lo:121.20,a:'嘉定区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'嘉定南部'},
+
+
 
   {n:'日森休闲垂钓',la:31.33,lo:121.17,a:'嘉定区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'休闲钓场'},
 
+
+
   {n:'沪岩之星欢乐钓场',la:31.35,lo:121.20,a:'嘉定区张顾路刘石路西500米右手边',p:'路亚128元/5h，台钓88元/5h',f:'鲫鱼/鲤鱼/鲈鱼/翘嘴/鳜鱼/黑鱼',t:'岸钓',tg:['shore','price'],d:'散养不喂养，2024新开，水质好'},
+
+
 
   {n:'嘉定阳光路亚',la:31.28,lo:121.23,a:'嘉定区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'阳光垂钓'},
 
+
+
   {n:'鹿渔户外营地',la:31.37,lo:121.15,a:'嘉定外冈',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'户外营地+路亚'},
+
+
 
   {n:'昕萌路亚',la:31.31,lo:121.26,a:'嘉定区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'嘉定钓场'},
 
+
+
   // 宝山
+
+
 
   {n:'风雨路RED',la:31.405,lo:121.422,a:'宝山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'特色路亚'},
 
+
+
   {n:'宝芝路生态园',la:31.382,lo:121.402,a:'宝山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'生态园'},
+
+
 
   {n:'火山路亚(月浦)',la:31.422,lo:121.432,a:'宝山月浦',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'火山宝山店'},
 
+
+
   {n:'光明钓场',la:31.362,lo:121.382,a:'宝山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'宝山钓场'},
+
+
 
   {n:'嘻哈钓场(宝山)',la:31.442,lo:121.452,a:'宝山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'新开业'},
 
+
+
   // 中环
+
+
 
   {n:'火山·博鲈社',la:31.25,lo:121.45,a:'中环内',p:'详询',f:'鲈鱼',t:'岸钓',tg:['shore'],d:'专业鲈鱼场'},
 
+
+
   {n:'金鹿路亚',la:31.18,lo:121.52,a:'中环外',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'中环外便利'},
+
+
 
   // 青浦
 
+
+
   {n:'森林pro',la:31.15,lo:121.10,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'森林系'},
+
+
 
   {n:'星辰路亚',la:31.08,lo:121.05,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'青浦钓场'},
 
+
+
   {n:'玲珑路亚',la:31.12,lo:121.08,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'玲珑钓场'},
+
+
 
   {n:'胡建垂钓中心',la:31.18,lo:121.12,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'青浦钓场'},
 
+
+
   {n:'聚友垂钓',la:31.06,lo:121.02,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'社交钓场'},
+
+
 
   {n:'君宴路亚(重固)',la:31.20,lo:121.15,a:'青浦重固',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'君宴连锁'},
 
+
+
   {n:'漫道水上路亚',la:31.22,lo:121.18,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'水上特色'},
+
+
 
   {n:'佘悦路亚基地',la:31.098,lo:121.062,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'佘山区域'},
 
+
+
   {n:'云也路亚',la:31.14,lo:121.04,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'特色钓场'},
+
+
 
   {n:'嘉园',la:31.05,lo:121.09,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'休闲'},
 
+
+
   {n:'逍遥大2路亚',la:31.08,lo:121.12,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'大型场'},
+
+
 
   {n:'鸿杰西(练塘)',la:31.02,lo:121.05,a:'青浦练塘',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'练塘'},
 
+
+
   {n:'嘉年华(巨鲈)',la:31.16,lo:121.14,a:'青浦区',p:'详询',f:'鲈鱼',t:'岸钓',tg:['shore'],d:'专业鲈鱼'},
+
+
 
   {n:'Imbass青松路亚',la:31.12,lo:121.07,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'imbass'},
 
+
+
   {n:'大白路亚俱乐部',la:31.18,lo:121.11,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'俱乐部'},
+
+
 
   {n:'鱼悦路亚',la:31.20,lo:121.13,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'青浦'},
 
+
+
   {n:'青山路亚(鹿营)',la:31.22,lo:121.16,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'露营+路亚'},
+
+
 
   {n:'庆同路亚',la:31.04,lo:121.08,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'青浦'},
 
+
+
   {n:'LIN有体验营地',la:31.14,lo:121.10,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'营地'},
+
+
 
   {n:'寻梦源梦水乡',la:31.06,lo:121.03,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'水乡'},
 
+
+
   {n:'感福来休闲园',la:31.10,lo:121.06,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'新开'},
+
+
 
   {n:'金跃海钓场',la:31.238,lo:121.188,a:'青浦区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'新开海钓风'},
 
+
+
   {n:'大乐路亚巨物',la:31.065,lo:121.054,a:'青浦练塘',p:'198元/天',f:'巨物/特种鱼',t:'岸钓',tg:['shore','price'],d:'紧邻淀山湖30亩'},
+
+
 
   // 松江
 
+
+
   {n:'鹿典庄园',la:31.032,lo:121.178,a:'松江区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'庄园式'},
+
+
 
   {n:'火山路亚(松江)',la:31.05,lo:121.22,a:'松江区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'火山松江'},
 
+
+
   {n:'百草原路亚',la:31.08,lo:121.25,a:'松江区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'百草原'},
+
+
 
   {n:'余山百草原俱乐部',la:31.10,lo:121.20,a:'松江佘山',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'佘山俱乐部'},
 
+
+
   {n:'镀石路亚',la:31.02,lo:121.16,a:'松江区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'特色'},
+
+
 
   {n:'普素金湖露营',la:31.12,lo:121.23,a:'松江区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'露营+路亚'},
 
+
+
   {n:'日月湖休闲垂钓',la:31.06,lo:121.19,a:'松江区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'日月湖'},
+
+
 
   {n:'四鳃鲈园基地',la:31.14,lo:121.21,a:'松江区',p:'详询',f:'鲈鱼',t:'岸钓',tg:['shore'],d:'四鳃鲈特色'},
 
+
+
   {n:'西郊林埭一月一路',la:31.00,lo:121.15,a:'松江区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'西郊露营'},
+
+
 
   {n:'山海渔路路亚',la:31.04,lo:121.24,a:'松江区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'山海渔路'},
 
+
+
   {n:'G1路亚营地',la:31.08,lo:121.17,a:'松江区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'G1品牌'},
+
+
 
   {n:'鲈影练习场',la:31.02,lo:121.13,a:'松江区',p:'详询',f:'鲈鱼',t:'岸钓',tg:['shore'],d:'鲈鱼练习'},
 
+
+
   {n:'满堂红路亚',la:31.10,lo:121.26,a:'松江区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'满堂红'},
+
+
 
   // 金山
 
+
+
   {n:'荷风路亚基地',la:30.89,lo:121.00,a:'金山枫泾',p:'详询',f:'黑鱼/鳡鱼/鲈鱼',t:'船+岸',tg:['boat','shore'],d:'120亩7艇，可露营'},
+
+
 
   {n:'南池路亚',la:30.85,lo:121.05,a:'金山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'金山钓场'},
 
+
+
   {n:'荷风Lurezone',la:30.87,lo:121.02,a:'金山枫泾',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'荷风连锁'},
+
+
 
   {n:'天钥路亚',la:30.92,lo:121.08,a:'金山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'天钥'},
 
+
+
   {n:'K16路亚基地',la:30.95,lo:121.10,a:'金山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'K16品牌'},
+
+
 
   {n:'君宴(铁牌头)',la:30.88,lo:121.03,a:'金山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'君宴连锁'},
 
+
+
   {n:'栖时海钓路亚',la:30.82,lo:121.12,a:'金山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'海钓风'},
+
+
 
   {n:'后园一号亲子',la:30.90,lo:121.06,a:'金山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'亲子路亚'},
 
+
+
   {n:'夏田路亚',la:30.86,lo:121.04,a:'金山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'夏田'},
+
+
 
   {n:'众渔路亚奉垂钓',la:30.94,lo:121.09,a:'金山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'众渔连锁'},
 
+
+
   {n:'昕悦渔乐汇',la:30.84,lo:121.07,a:'金山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'昕悦'},
+
+
 
   {n:'飞隆海钓场',la:30.80,lo:121.11,a:'金山区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'新开海钓'},
 
+
+
   // 崇明
+
+
 
   {n:'老杜农场(巨物)',la:31.72,lo:121.48,a:'崇明岛',p:'详询',f:'巨物',t:'岸钓',tg:['shore'],d:'巨物场'},
 
+
+
   {n:'花韵垂钓场',la:31.68,lo:121.45,a:'崇明岛',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'花韵'},
+
+
 
   {n:'路渔部落',la:31.75,lo:121.52,a:'崇明岛',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'部落'},
 
+
+
   {n:'珑门路亚俱乐部',la:31.65,lo:121.42,a:'崇明岛',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'珑门'},
+
+
 
   // 长兴
 
+
+
   {n:'郊野公园巨物阀',la:31.358,lo:121.688,a:'长兴岛',p:'详询',f:'巨物',t:'岸钓',tg:['shore'],d:'郊野公园'},
+
+
 
   {n:'长兴蜜桔采摘园',la:31.352,lo:121.698,a:'长兴岛',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'采摘+路亚'},
 
+
+
   {n:'北兴路亚',la:31.418,lo:121.648,a:'长兴岛',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'北兴'},
+
+
 
   {n:'长兴岛长江大桥',la:31.388,lo:121.738,a:'长兴岛秋柑路',p:'免费',f:'海鲈/翘嘴',t:'野钓',tg:['shore','price'],d:'免费野钓'},
 
+
+
   // 浦东
+
+
 
   {n:'露路堡·黄家楼下',la:31.195,lo:121.545,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'浦东'},
 
+
+
   {n:'明舟路亚(农夫果园)',la:31.175,lo:121.595,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'农夫果园'},
+
+
 
   {n:'小凡邦路亚营地',la:31.145,lo:121.575,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'小凡邦'},
 
+
+
   {n:'烧鲜路亚',la:31.215,lo:121.515,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'浦东'},
+
+
 
   {n:'新怡路亚垂钓园',la:31.095,lo:121.645,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'新怡'},
 
+
+
   {n:'龙王垂钓中心',la:31.245,lo:121.475,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'龙王连锁'},
+
+
 
   {n:'新合庆垂钓中心',la:31.295,lo:121.685,a:'浦东合庆',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'合庆'},
 
+
+
   {n:'808路亚基地',la:31.115,lo:121.545,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'808品牌'},
+
+
 
   {n:'龙叶钓场',la:31.075,lo:121.495,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'龙叶'},
 
+
+
   {n:'319路亚',la:31.045,lo:121.615,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'319品牌'},
+
+
 
   {n:'Gohooks',la:31.285,lo:121.452,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'Gohooks'},
 
+
+
   {n:'无山露营地',la:31.175,lo:121.675,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'露营+路亚'},
+
+
 
   {n:'嘉佳沪瑞路亚',la:31.215,lo:121.575,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'沪瑞'},
 
+
+
   {n:'驴太翘路亚俱乐部',la:31.145,lo:121.515,a:'浦东新区',p:'详询',f:'翘嘴',t:'岸钓',tg:['shore'],d:'专业翘嘴'},
+
+
 
   {n:'青山路亚(幕谷)',la:31.245,lo:121.645,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'青山幕谷'},
 
+
+
   {n:'小袁钓场',la:31.195,lo:121.545,a:'浦东新区',p:'150元/天',f:'混养可路亚',t:'岸钓',tg:['shore','price'],d:'水深2.8米50钓位'},
+
+
 
   {n:'友间路亚(红客)',la:31.345,lo:121.735,a:'浦东新区',p:'详询',f:'路亚综合',t:'船钓',tg:['boat'],d:'红客船钓'},
 
+
+
   {n:'浪淘海钓馆',la:31.315,lo:121.715,a:'浦东新区',p:'详询',f:'海鲈',t:'岸钓',tg:['shore'],d:'海钓馆'},
+
+
 
   {n:'彩虹钓场',la:31.045,lo:121.475,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'彩虹'},
 
+
+
   {n:'天城路亚',la:31.075,lo:121.575,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'天城'},
+
+
 
   {n:'今属海水练杆',la:31.145,lo:121.675,a:'浦东新区',p:'详询',f:'海鱼',t:'岸钓',tg:['shore'],d:'海水练杆'},
 
+
+
   {n:'探鱼去路亚',la:31.275,lo:121.615,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'探鱼去'},
+
+
 
   {n:'森野漫道路亚',la:31.115,lo:121.715,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'森野漫道'},
 
+
+
   {n:'朝海路亚海钓',la:31.365,lo:121.76,a:'浦东新区',p:'详询',f:'海鲈',t:'岸钓',tg:['shore'],d:'朝海海钓'},
+
+
 
   {n:'往前渔生娱乐',la:31.175,lo:121.735,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'新开'},
 
+
+
   {n:'天道路亚俱乐部',la:31.215,lo:121.685,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'新开'},
+
+
 
   {n:'小不点路亚',la:31.245,lo:121.675,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'新开'},
 
+
+
   {n:'猛禽路亚俱乐部',la:31.295,lo:121.645,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'猛禽'},
+
+
 
   {n:'壹号钓场',la:31.345,lo:121.615,a:'浦东新区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'新开'},
 
+
+
   // 奉贤
+
+
 
   {n:'嘻哈路亚(奉贤)',la:30.92,lo:121.46,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'嘻哈奉贤'},
 
+
+
   {n:'欣兴水产路亚',la:30.88,lo:121.50,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'欣兴水产'},
+
+
 
   {n:'尼际海钓场',la:30.848,lo:121.548,a:'奉贤区',p:'详询',f:'海鲈',t:'岸钓',tg:['shore'],d:'海钓'},
 
+
+
   {n:'PE路亚营地',la:30.925,lo:121.462,a:'奉贤区庄行镇渔沥村',p:'158元/天',f:'黑鱼/鲶鱼/鲈鱼/翘嘴/鳜鱼',t:'岸钓',tg:['shore','price'],d:'20亩可露营'},
+
+
 
   {n:'高尔夫垂钓中心',la:30.95,lo:121.52,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'高尔夫'},
 
+
+
   {n:'沪乐路亚',la:30.88,lo:121.48,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'沪乐'},
+
+
 
   {n:'沪上路亚公园',la:30.90,lo:121.50,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'主题公园'},
 
+
+
   {n:'漫道水上森林',la:30.848,lo:121.528,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'水上森林'},
+
+
 
   {n:'路路营路亚',la:30.92,lo:121.48,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'路路营'},
 
+
+
   {n:'宝鱼阿真垂钓',la:30.88,lo:121.45,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'宝鱼阿真'},
+
+
 
   {n:'春池路亚基地',la:30.95,lo:121.50,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'春池'},
 
+
+
   {n:'鱼阿园路亚',la:30.90,lo:121.52,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'鱼阿园'},
+
+
 
   {n:'仙境路亚垂钓',la:30.848,lo:121.478,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'仙境'},
 
+
+
   {n:'水泥洞路亚',la:30.918,lo:121.548,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'水泥洞'},
+
+
 
   {n:'明毅路亚(6号桥)',la:30.88,lo:121.50,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'明毅'},
 
+
+
   {n:'红领休闲垂钓',la:30.95,lo:121.48,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'红领'},
+
+
 
   {n:'清菏垂钓中心',la:30.85,lo:121.46,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'清菏'},
 
+
+
   {n:'荷叶路亚',la:30.90,lo:121.45,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'荷叶'},
+
+
 
   {n:'BKB路亚营地',la:30.92,lo:121.52,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'BKB'},
 
+
+
   {n:'金馨海波浪',la:30.88,lo:121.48,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'海波浪'},
+
+
 
   {n:'亿升钓场',la:30.85,lo:121.50,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'亿升'},
 
+
+
   {n:'小苹果乐园路亚',la:30.90,lo:121.53,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'小苹果'},
+
+
 
   {n:'岸香路亚',la:30.92,lo:121.45,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'岸香'},
 
+
+
   {n:'9702路亚基地',la:30.88,lo:121.48,a:'奉贤区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'9702'},
+
+
 
   {n:'澜山钓场',la:30.904,lo:121.505,a:'奉贤区',p:'150-200/天',f:'路亚综合',t:'岸钓',tg:['shore','price'],d:'知名钓场'},
 
+
+
   {n:'奉贤海湾野钓',la:30.845,lo:121.595,a:'奉贤海湾',p:'免费',f:'翘嘴/鳜鱼/鲶鱼',t:'野钓',tg:['shore','price'],d:'免费野钓'},
+
+
 
   // 闵行
 
+
+
   {n:'玫瑰仙境路亚',la:31.0418,lo:121.5561,a:'闵行浦江镇先新路41号',p:'详询',f:'鲈鱼/鳜鱼/翘嘴/海鲈/金目鲈',t:'船钓',tg:['boat'],d:'100亩7艇，进阶首选'},
+
+
 
   {n:'悦依路亚基地',la:31.052,lo:121.448,a:'闵行区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'闵行'},
 
+
+
   {n:'友间路亚(邵稼楼)',la:31.082,lo:121.478,a:'闵行区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'邵稼楼'},
+
+
 
   {n:'小纪王钓鱼场',la:31.098,lo:121.378,a:'闵行纪王',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'纪王'},
 
+
+
   {n:'健农小渔儿竞技',la:31.022,lo:121.422,a:'闵行区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'竞技'},
+
+
 
   {n:'嘻哈钓场(浦江)',la:31.062,lo:121.498,a:'闵行浦江',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'嘻哈浦江'},
 
+
+
   {n:'万虹路亚基地',la:31.002,lo:121.348,a:'闵行区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'万虹'},
+
+
 
   {n:'晴天路亚',la:31.223,lo:121.282,a:'闵行华漕',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'高手竞技场，300人/周末'},
 
+
+
   {n:'童心LURE',la:31.02,lo:121.375,a:'闵行马桥汇江路38号',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'新手友好，有咖啡'},
+
+
 
   {n:'星河垂钓中心',la:31.148,lo:121.282,a:'闵行区',p:'详询',f:'路亚综合',t:'岸钓',tg:['shore'],d:'星河'},
 
+
+
   {n:'火山路亚垂钓基地',la:31.296,lo:121.508,a:'杨浦江湾体育场',p:'详询',f:'海鲈等十几种',t:'岸钓',tg:['shore'],d:'市区便利'}
 
+
+
 ];
+
+
 
 let venuesLoaded = true; // 数据已内联，直接标记为已加载
 
 
 
+
+
+
+
 // ============================================================
+
+
 
 // WATER TACTICS
 
+
+
 // ============================================================
+
+
 
 const WT = {
 
+
+
   river:{l:'江河',io:'🏞️',t:'流水远投，优先抗流饵',re:'纺车/水滴',ro:'2.1m+ M硬度',lu:'VIB/亮片/米诺'},
+
+
 
   lake:{l:'湖泊',io:'🌊',t:'大水面静水，远投搜索',re:'纺车2000-3000型',ro:'ML-M, 2.1-2.4m',lu:'亮片/米诺/波爬/VIB'},
 
+
+
   stream:{l:'溪流',io:'🏔️',t:'窄水域精准抛投微物',re:'纺车500-1000型',ro:'UL-L, 1.5-1.8m',lu:'小型亮片/微物米诺'},
+
+
 
   pond:{l:'池塘',io:'🪷',t:'小水域精细作钓',re:'纺车/水滴',ro:'L-ML, 1.8-2.1m',lu:'软虫/小胖/亮片'},
 
+
+
   sea:{l:'海水',io:'🌅',t:'大水面风浪，需耐腐蚀装备',re:'纺车3000-5000型',ro:'MH-H, 2.4-3.0m',lu:'铁板/大型米诺/波爬'},
 
+
+
   wetland:{l:'湿地/草区',io:'🌿',t:'水草密集，防挂雷强',re:'鼓轮/强力水滴',ro:'H-XH, 2.1-2.4m',lu:'雷蛙/无铅软虫/水面系'}
+
+
 
 };
 
 
 
+
+
+
+
 // ============================================================
+
+
 
 // MAP ENGINE (优化版: 集群 + 缓存)
 
+
+
 // ============================================================
 
+
+
 let map, marker, selectedWaterInfo = null;
+
+
 
 let venueLayer = [];
 
 
 
+
+
+
+
 function initMap() {
+
+
 
   const wrap = document.getElementById('mapWrap');
 
+
+
   const loading = document.createElement('div');
+
+
 
   loading.className = 'loading-overlay';
 
+
+
   loading.innerHTML = '<div class="spinner"></div> 🌸 地图加载中...';
+
+
 
   wrap.appendChild(loading);
 
 
 
+
+
+
+
   map = L.map('lureMap', {
+
+
 
     center:[31.15, 121.55], zoom:10, zoomControl:true,
 
+
+
     attributionControl: true
 
+
+
   });
+
+
+
+
 
 
 
   // ===== 底图图层 =====
 
+
+
   // 1. 中文标准地图 (CartoDB 浅色 + 中文标签)
+
+
 
   const baseMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 
+
+
     maxZoom:19,
+
+
 
     attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
 
+
+
   });
+
+
+
+
 
 
 
   // 2. 卫星地图 (Esri World Imagery)
 
+
+
   const satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+
+
 
     maxZoom:19,
 
+
+
     attribution:'&copy; Esri, Maxar, Earthstar Geographics'
 
+
+
   });
+
+
+
+
 
 
 
   // 3. 卫星地图上的中文标注叠加层
 
+
+
   const satelliteLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+
+
 
     maxZoom:19,
 
+
+
     attribution:'&copy; CARTO'
 
+
+
   });
+
+
+
+
 
 
 
   // 先加载标准地图
 
+
+
   baseMap.addTo(map);
+
+
+
+
 
 
 
   // ===== 图层切换控件 =====
 
+
+
   const layerControl = {
+
+
 
     '🗺️ 标准地图': baseMap,
 
+
+
     '🛰️ 卫星地图': L.layerGroup([satelliteMap, satelliteLabels])
 
+
+
   };
+
+
 
   L.control.layers(null, layerControl, {position:'topleft'}).addTo(map);
 
 
 
+
+
+
+
   // 卫星图切换时自动缩放适配
+
+
 
   map.on('baselayerchange', function(e) {
 
+
+
     setTimeout(() => map.invalidateSize(), 200);
 
+
+
   });
+
+
+
+
 
 
 
   // 强制刷新尺寸
 
+
+
   setTimeout(() => map.invalidateSize(), 100);
+
+
 
   setTimeout(() => map.invalidateSize(), 500);
 
 
 
+
+
+
+
   // MarkerCluster for venues
 
-  // marker cluster disabled
+
+
+  // markerCluster disabled
+
+
+
+
 
 
 
   const icon = L.divIcon({
 
+
+
     className:'',
+
+
 
     html:'<div style="background:linear-gradient(135deg,#ff8da1,#ff6b8a);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 2px 10px rgba(255,77,109,0.4);border:2px solid #fff;">🎣</div>',
 
+
+
     iconSize:[30,30], iconAnchor:[15,15]
 
+
+
   });
+
+
+
+
 
 
 
   // 初始化标记聚合层（先不添加具体标记）
 
-  // marker cluster disabled
+
+
+  // marker cluster removed
+
+
+
+
 
 
 
   // 如果钓场数据已加载，添加标记
 
+
+
   if (venuesLoaded && SV.length > 0) {
 
+
+
     addVenueMarkers();
+
+
 
   }
 
 
 
+
+
+
+
   map.on('click', onMapClick);
+
+
 
   map.whenReady(() => {
 
+
+
     loading.remove();
+
+
 
     setTimeout(() => map.invalidateSize(), 300);
 
+
+
   });
+
+
 
 }
 
 
 
+
+
+
+
 // 添加钓场标记到地图
 
-function addVenueMarkers() { /* disabled */ }
+
+
+function addVenueMarkers() {}
+
+
+
+
+
+
+
+// Nominatim with localStorage cache
+
+
+
+const GEO_CACHE = {};
+
+
+
+
+
+
+
+function cachedReverseGeocode(lat, lng) {
+
+
+
+  const key = `${lat.toFixed(3)},${lng.toFixed(3)}`;
+
+
+
+  if (GEO_CACHE[key]) return Promise.resolve(GEO_CACHE[key]);
+
+
+
+  return fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=12&accept-language=zh`)
+
+
+
+    .then(r => r.json())
+
+
+
+    .then(data => { GEO_CACHE[key] = data; return data; });
+
+
+
+}
+
+
+
+
 
 
 
 function onMapClick(e) {
 
+
+
   const {lat, lng} = e.latlng;
+
+
 
   if (marker) map.removeLayer(marker);
 
+
+
   marker = L.marker([lat, lng], {
+
+
 
     icon: L.divIcon({
 
+
+
       className:'',
+
+
 
       html:'<div style="background:linear-gradient(135deg,#ff6b8a,#ff4d6d);color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 3px 15px rgba(255,77,109,0.5);border:3px solid #fff;animation:bounce 1s;">🎯</div>',
 
+
+
       iconSize:[36,36], iconAnchor:[18,18]
 
+
+
     })
+
+
 
   }).addTo(map);
 
 
 
+
+
+
+
   document.getElementById('selectedWaterLabel').textContent = '⏳ 识别中...';
+
+
 
   document.getElementById('mapInfo').innerHTML = '🌸 <strong>识别中：</strong>正在查询水域信息...';
 
 
 
+
+
+
+
   cachedReverseGeocode(lat, lng).then(data => {
+
+
 
     let wn = '未知水域', wt = 'lake', wd = '';
 
+
+
     const dn = (data.display_name||'').toLowerCase();
+
+
 
     const addr = data.address||{};
 
 
 
+
+
+
+
     if (data.type==='water'||data.type==='river'||data.type==='stream'||addr.water||addr.river||addr.stream||dn.includes('河')||dn.includes('江')||dn.includes('溪')) { wt='river'; wd='流水水域'; }
+
+
 
     else if (data.type==='reservoir'||data.type==='lake'||dn.includes('水库')||dn.includes('湖')||dn.includes('泊')) { wt='lake'; wd='静水大水面'; }
 
+
+
     else if (dn.includes('海')||dn.includes('sea')||dn.includes('coast')) { wt='sea'; wd='海水环境'; }
 
+
+
     else if (dn.includes('池塘')||dn.includes('塘')||dn.includes('pond')) { wt='pond'; wd='小水域'; }
+
+
 
     else if (dn.includes('湿地')||dn.includes('沼泽')) { wt='wetland'; wd='草区湿地'; }
 
 
 
+
+
+
+
     const name = data.name||addr.water||addr.river||addr.stream||addr.lake||addr.reservoir||addr.place||'';
+
+
 
     const city = addr.city||addr.town||addr.county||'';
 
+
+
     wn = name || (city ? city+'附近' : '选中位置');
+
+
+
+
 
 
 
@@ -1402,816 +3401,1755 @@ function onMapClick(e) {
 
 
 
+
+
+
+
     const tactic = WT[wt]||WT.lake;
+
+
 
     document.getElementById('selectedWaterLabel').textContent = `${tactic.io} ${wn}`;
 
+
+
     document.getElementById('mapInfo').innerHTML = `
+
+
 
       🗺️ <strong>选定水域：</strong>${tactic.io} ${wn}
 
+
+
       <span style="display:inline-block;background:var(--pk-lighter);padding:2px 10px;border-radius:20px;margin-left:6px;font-size:11px;">${tactic.l}</span>
+
+
 
       <br>📍 ${city?city+' · ':''}${lat.toFixed(4)}, ${lng.toFixed(4)}
 
+
+
       <br>🎯 ${wd}
+
+
 
     `;
 
+
+
     const wm = {river:'river',lake:'lake',sea:'sea',pond:'pond',wetland:'lake',stream:'stream'};
+
+
 
     if (wm[wt]) document.getElementById('waterType').value = wm[wt];
 
+
+
   }).catch(() => {
+
+
 
     selectedWaterInfo = {wn:'选中位置',wt:'lake',wd:'',lat,lng,city:''};
 
+
+
     document.getElementById('selectedWaterLabel').textContent = '📍 已选位置';
 
+
+
   });
+
+
 
 }
 
 
 
-function flyToVenue(la, lo) { switchPage("map"); map.setView([la, lo], 15); }
+
+
+
+
+function flyToVenue(la, lo) { map.setView([la, lo], 15); }
+
+
+
+
+
+
+
+// ============================================================
+
+
+
+// MAP SEARCH FUNCTION
+
+
+
+// ============================================================
+
+
+
+let searchMarker = null;
+
+
+
+let searchResults = [];
+
+
+
+
+
+
+
+function searchMap() {
+
+
+
+  const query = document.getElementById('mapSearchInput').value.trim();
+
+
+
+  if (!query) return;
+
+
+
+  
+
+
+
+  const resultsDiv = document.getElementById('searchResults');
+
+
+
+  resultsDiv.innerHTML = '<div style="padding:10px;text-align:center;color:var(--gray-400);">⏳ 搜索中...</div>';
+
+
+
+  resultsDiv.style.display = 'block';
+
+
+
+  
+
+
+
+  // Use Nominatim API to search
+
+
+
+  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&accept-language=zh`)
+
+
+
+    .then(res => res.json())
+
+
+
+    .then(data => {
+
+
+
+      if (data.length === 0) {
+
+
+
+        resultsDiv.innerHTML = '<div style="padding:10px;text-align:center;color:var(--gray-400);">😢 没有找到结果</div>';
+
+
+
+        return;
+
+
+
+      }
+
+
+
+      
+
+
+
+      searchResults = data;
+
+
+
+      resultsDiv.innerHTML = data.map((item, idx) => `
+
+
+
+        <div style="padding:10px 14px;cursor:pointer;hover:background:var(--pk-lighter);border-bottom:1px solid var(--gray-200);font-size:13px;" 
+
+
+
+             onclick="selectSearchResult(${idx})">
+
+
+
+          📍 ${item.display_name.split(',').slice(0, 3).join(',')}
+
+
+
+        </div>
+
+
+
+      `).join('');
+
+
+
+    })
+
+
+
+    .catch(err => {
+
+
+
+      resultsDiv.innerHTML = '<div style="padding:10px;text-align:center;color:var(--gray-400);">❌ 搜索失败</div>';
+
+
+
+      console.error('Search error:', err);
+
+
+
+    });
+
+
+
+}
+
+
+
+
 
 
 
 function selectSearchResult(idx) {
 
+
+
   const item = searchResults[idx];
+
+
 
   if (!item) return;
 
+
+
   
+
+
 
   const lat = parseFloat(item.lat);
 
+
+
   const lng = parseFloat(item.lon);
 
+
+
   
+
+
 
   // Fly to location
 
+
+
   map.setView([lat, lng], 13);
 
+
+
   
+
+
 
   // Add marker
 
+
+
   if (searchMarker) map.removeLayer(searchMarker);
+
+
 
   searchMarker = L.marker([lat, lng], {
 
+
+
     icon: L.divIcon({
+
+
 
       className: '',
 
+
+
       html: '<div style="background:#ff6b8a;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 10px rgba(255,107,138,0.5);border:2px solid #fff;">🔍</div>',
+
+
 
       iconSize: [32, 32],
 
+
+
       iconAnchor: [16, 16]
+
+
 
     })
 
+
+
   }).addTo(map);
 
+
+
   
+
+
 
   // Simulate map click
 
+
+
   onMapClick({latlng: {lat, lng: lng}});
+
+
 
   
 
+
+
   // Hide results
+
+
 
   document.getElementById('searchResults').style.display = 'none';
 
+
+
 }
+
+
+
+
 
 
 
 // Allow Enter key to trigger search
 
+
+
 document.addEventListener('DOMContentLoaded', () => {
+
+
 
   const searchInput = document.getElementById('mapSearchInput');
 
+
+
   if (searchInput) {
+
+
 
     searchInput.addEventListener('keypress', (e) => {
 
+
+
       if (e.key === 'Enter') searchMap();
+
+
 
     });
 
+
+
   }
+
+
 
 });
 
 
 
+
+
+
+
 // ============================================================
+
+
 
 // ANALYSIS ENGINE
 
-// ============================================================
+
 
 // ============================================================
+
+
+
+// ============================================================
+
+
 
 // FISH ICONS + TAGS (香饼呀风 ✿)
 
+
+
 // ============================================================
+
+
 
 const FISH_LIST = [
 
+
+
   ['bass','鲈鱼'],['mandarin','鳜鱼'],['culter','翘嘴'],['snakehead','黑鱼'],
+
+
 
   ['minnow','马口'],['redtail','红尾'],['yellowcheek','鳡鱼'],['tilapia','罗非'],
 
+
+
   ['catfish','鲶鱼'],['snapper','海鲈'],['palechub','溪哥'],['barbel','军鱼'],
 
+
+
   ['trout','鳟鱼'],['whitebait','白条'],['cyprinid','青稍']
+
+
 
 ];
 
 
 
+
+
+
+
 let selectedFish = ['bass'];
+
+
 
 function selectFish(el) {
 
+
+
   el.classList.toggle('selected');
+
+
 
   selectedFish = Array.from(document.querySelectorAll('.fish-tag.selected')).map(e=>e.dataset.fish);
 
+
+
 }
+
+
+
+
 
 
 
 function renderFishTags() {
 
+
+
   document.getElementById('fishTags').innerHTML = FISH_LIST.map(([key,name]) => {
+
+
 
     const sel = key === 'bass' ? ' selected' : '';
 
+
+
     const svg = makeFishIcon(key);
+
+
 
     return `<div class="fish-tag${sel}" data-fish="${key}" onclick="selectFish(this)">${svg}${name}</div>`;
 
+
+
   }).join('');
+
+
 
 }
 
+
+
 function updatePressure() { document.getElementById('pressureVal').textContent = document.getElementById('pressure').value; }
+
+
 
 function updateTemp() { document.getElementById('tempVal').textContent = document.getElementById('temperature').value; }
 
 
 
+
+
+
+
 function getEnv(p,t,cl,wi,fk) {
+
+
 
   const f = FK[fk]; if(!f) return {s:50,l:'一般'};
 
+
+
   const ps = f.pressureScore ? f.pressureScore(p) : 60;
+
+
 
   let ts=60; if(f.bestTemp) { const r=f.bestTemp.match(/(\d+)-(\d+)/); if(r){const mn=+r[1],mx=+r[2]; if(t>=mn&&t<=mx) ts=90; else if(t>=mn-5&&t<=mx+5) ts=70; else ts=40; } }
 
+
+
   const ws=wi==='strong'?40:wi==='calm'?60:70;
+
+
 
   const cs=cl==='muddy'?50:70;
 
+
+
   const ov=Math.round(ps*0.35+ts*0.35+ws*0.15+cs*0.15);
+
+
 
   return {s:ov, l:ov>=75?'🎯 黄金':ov>=55?'👍 可出钓':'⚠️ 一般'};
 
+
+
 }
+
+
+
+
 
 
 
 function fmt(v,m){return m[v]||v;}
 
+
+
 const SM={spring:'🌱春',summer:'☀️夏',fall:'🍂秋',winter:'❄️冬'};
+
+
 
 const FM={still:'静水',slow:'缓流',fast:'急流'};
 
+
+
 const CM={clear:'清澈',moderate:'中等',muddy:'浑浊'};
+
+
 
 const WM={calm:'无风',light:'微风',moderate:'和风',strong:'大风'};
 
+
+
 const EM={beginner:'新手',intermediate:'进阶',advanced:'高手'};
+
+
 
 const WTM={river:'江河',lake:'湖泊',stream:'溪流',pond:'池塘',sea:'海水'};
 
 
 
+
+
+
+
 function analyze() {
+
+
 
   const btn=document.getElementById('analyzeBtn');
 
+
+
   btn.disabled=true; btn.textContent='⏳ 分析中...';
+
+
 
   setTimeout(()=>{
 
+
+
     const p=+document.getElementById('pressure').value, t=+document.getElementById('temperature').value;
+
+
 
     const season=document.getElementById('season').value, wf=document.getElementById('waterFlow').value;
 
+
+
     const cl=document.getElementById('clarity').value, wi=document.getElementById('wind').value;
+
+
 
     const ex=document.getElementById('experience').value, wt=document.getElementById('waterType').value;
 
+
+
     const rd=document.getElementById('resultSection'), rc=document.getElementById('resultContent');
 
+
+
     const fishes=selectedFish.length?selectedFish:['bass'];
+
+
 
     document.getElementById('analysisTime').textContent='✨ '+new Date().toLocaleString('zh-CN',{hour:'2-digit',minute:'2-digit'});
 
 
 
+
+
+
+
     let html='';
+
+
 
     if(selectedWaterInfo) {
 
+
+
       const wtac=WT[selectedWaterInfo.wt]||WT.lake;
+
+
 
       html+=`<div class="result-summary" style="background:linear-gradient(135deg,#ffe4ec,#e8f4fd);">
 
+
+
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+
+
 
           <span style="font-size:24px;">${wtac.io}</span>
 
+
+
           <div><div style="font-weight:700;font-size:15px;color:#d6336c;">${selectedWaterInfo.wn}</div>
+
+
 
           <div style="font-size:12px;color:var(--gray-600);">${selectedWaterInfo.city||''} · ${selectedWaterInfo.lat.toFixed(4)}, ${selectedWaterInfo.lng.toFixed(4)}</div></div>
 
+
+
           <span style="margin-left:auto;background:var(--pk-lighter);padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;color:#d6336c;">${wtac.l}</span>
 
+
+
         </div>
+
+
 
         <div style="margin-top:8px;padding:10px;background:rgba(255,255,255,0.6);border-radius:10px;font-size:12px;line-height:1.6;">
 
+
+
           <strong>🎯 流域建议：</strong>${wtac.t}<br>
+
+
 
           <strong>🎣 竿：</strong>${wtac.ro} · <strong>⚙️ 轮：</strong>${wtac.re}<br>
 
+
+
           <strong>🥏 饵：</strong>${wtac.lu}
+
+
 
         </div>
 
+
+
       </div>`;
 
+
+
     }
+
+
+
+
 
 
 
     fishes.forEach((fk,i)=>{
 
+
+
       const f=FK[fk]; if(!f) return;
+
+
 
       const env=getEnv(p,t,cl,wi,fk);
 
+
+
       const pt=p>=1005&&p<=1025?'🌤️ 高气压·活跃':p>=995?'🌥️ 适中':'🌧️ 低压';
+
+
 
       let al=[...f.lures];
 
+
+
       if(t<10) al=al.filter(l=>l.desc.includes('底')||l.desc.includes('震'));
 
+
+
       if(al.length===0) al=f.lures.slice(0,2);
+
+
 
       if(cl==='muddy') al=al.filter(l=>+l.weight.replace('g','')>=5);
 
+
+
       if(al.length===0) al=f.lures.slice(0,2);
+
+
 
       const lh=cl==='muddy'?'💡 浑浊水用高震动亮色饵':cl==='clear'?'💡 清水用自然色精细操控':'';
 
 
 
+
+
+
+
       html+=`<div class="result-summary">
+
+
 
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
 
+
+
           <span class="fish-label">${f.name}</span>
+
+
 
           <span class="score good">${pt}</span>
 
+
+
           <span class="score ${env.s>=75?'good':env.s>=55?'fair':'poor'}">🎯 ${env.s}分 · ${env.l}</span>
 
+
+
         </div>
+
+
 
         <div class="conditions">📍${fmt(wt,WTM)} · 🌊${fmt(wf,FM)} · 💧${fmt(cl,CM)} · 🌡️${t}℃ · 🌬️${p}hPa · 🍃${fmt(wi,WM)} · ${fmt(season,SM)} · ${fmt(ex,EM)}</div>
 
+
+
       </div>
+
+
 
       <div class="gear-grid">
 
+
+
         <div class="gear-card">
+
+
 
           <div class="gear-icon">🎣</div>
 
+
+
           <div class="gear-title">钓竿</div>
+
+
 
           <div class="gear-subtitle">${f.rod.castingType}</div>
 
+
+
           <div class="gear-spec">
+
+
 
             <span class="spec-tag highlight">${f.rod.power}</span>
 
+
+
             <span class="spec-tag highlight">${f.rod.action}</span>
+
+
 
             <span class="spec-tag highlight">${f.rod.length}</span>
 
+
+
           </div>
+
+
 
           <div style="margin-top:6px;font-size:11px;color:var(--gray-400);">${f.bestTemp} · ${f.waterLayer}</div>
 
+
+
           ${ex==='beginner'?'<div style="margin-top:4px;font-size:11px;color:#d6336c;">✅ 推荐直柄+纺车</div>':''}
+
+
 
         </div>
 
+
+
         <div class="gear-card">
+
+
 
           <div class="gear-icon">⚙️</div>
 
+
+
           <div class="gear-title">渔轮</div>
+
+
 
           <div class="gear-subtitle">${f.reel.type}</div>
 
+
+
           <div class="gear-spec">
+
+
 
             <span class="spec-tag highlight">${f.reel.ratio}</span>
 
+
+
             <span class="spec-tag highlight">${f.reel.lineCapacity}</span>
+
+
 
           </div>
 
+
+
         </div>
+
+
 
         <div class="gear-card">
 
+
+
           <div class="gear-icon">🎯</div>
+
+
 
           <div class="gear-title">推荐饵重</div>
 
+
+
           <div class="gear-subtitle">环境优化</div>
+
+
 
           <div class="gear-spec">${al.map(l=>'<span class="spec-tag highlight">'+l.icon+' '+l.weight+'</span>').join('')}</div>
 
+
+
           <div style="margin-top:6px;font-size:11px;color:var(--gray-400);">${al.length}种拟饵</div>
+
+
 
         </div>
 
+
+
       </div>
 
+
+
       <div class="lure-section">
+
+
 
         <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:#d6336c;">🎯 推荐拟饵 ✨</div>
         <div class="brand-box" style="margin-top:10px;padding:10px;background:var(--pk-lighter);border-radius:10px;">
           <div style="font-weight:700;font-size:12px;margin-bottom:6px;color:#d6336c;">🏷️ 品牌推荐</div>
           <div style="display:flex;flex-wrap:wrap;gap:4px;">
-            ${(()=>{
-              const bd = LURE_BRANDS[f.name] || LURE_BRANDS['default'];
-              const cats = [['硬饵',bd.hard],['软饵',bd.soft],['水面系',bd.top],['胖子',bd.crank]];
-              return cats.filter(c=>c[1]&&c[1].length).map(c=>
-                '<div style="margin:2px 0;width:100%;"><span style="font-size:10px;color:#888;">'+c[0]+'</span> '+
-                c[1].map(b=>'<span style="display:inline-block;padding:2px 6px;margin:1px;background:#fff;border-radius:6px;font-size:10px;color:#d6336c;font-weight:600;">'+b+'</span>').join('')+
-                '</div>'
-              ).join('')
-            })()}
+            ${function(){var b=BRANDS[f.name]||BRANDS["default"];var cats=[["硬饵",b.hard],["软饵",b.soft],["水面系",b.top],["胖子",b.crank]];var h="";for(var i=0;i<cats.length;i++){if(!cats[i][1])continue;h+="<div style='margin:2px 0;width:100%;'><span style='font-size:10px;color:#888;'>"+cats[i][0]+"</span> ";for(var j=0;j<cats[i][1].length;j++){h+="<span style='display:inline-block;padding:2px 6px;margin:1px;background:#fff;border-radius:6px;font-size:10px;color:#d6336c;font-weight:600;'>"+cats[i][1][j]+"</span>"}h+="</div>"}return h;}()}
           </div>
         </div>
 
+
+
         <div class="lure-grid">${al.map(l=>'<div class="lure-item"><span class="lure-icon">'+l.icon+'</span><div class="lure-info"><div class="lure-name">'+l.name+'</div><div class="lure-desc">'+l.desc+'</div></div><span class="lure-weight">'+l.weight+'</span></div>').join('')}</div>
+
+
 
         ${lh?'<div class="tips-box"><div class="tip-title">💡 提示</div><ul><li>'+lh+'</li></ul></div>':''}
 
+
+
       </div>
+
+
 
       <div class="tips-box">
 
+
+
         <div class="tip-title">🎣 '+f.name+' 作钓贴士</div>
+
+
 
         <ul>
 
+
+
           <li>'+f.habits+'</li>
+
+
 
           <li>气压：'+f.pressureEffect+'</li>
 
+
+
           ${ex==='beginner'?'<li>新手建议纺车轮+直柄竿开始</li>':''}
+
+
 
           ${selectedWaterInfo?'<li>📍 '+selectedWaterInfo.wn+'</li>':''}
 
+
+
         </ul>
+
+
 
       </div>`;
 
+
+
       if(i<fishes.length-1) html+='<hr style="margin:20px 0;border:none;border-top:2px dashed var(--pk-lighter);">';
+
+
 
     });
 
+
+
     rc.innerHTML=html;
+
+
 
     rd.classList.add('show');
 
+
+
     rd.scrollIntoView({behavior:'smooth',block:'start'});
+
+
 
     btn.disabled=false; btn.textContent='🎀 重新分析 ✨';
 
+
+
   }, 400);
+
+
 
 }
 
 
 
+
+
+
+
 // ============================================================
+
+
 
 // RENDER VENUES + SEARCH
 
+
+
 // ============================================================
+
+
 
 let allVenuesHTML = '';
 
 
 
+
+
+
+
 function renderVenues() {
+
+
 
   allVenuesHTML = SV.map(v => {
 
+
+
     const tags = v.tg.map(t => t==='boat'?'<span class="vtag boat">🚤船钓</span>':t==='shore'?'<span class="vtag shore">🏖️岸钓</span>':t==='price'?'<span class="vtag price">💰价</span>':'').join('');
+
+
 
     return '<div class="venue-card" onclick="flyToVenue('+v.la+','+v.lo+')">'
 
+
+
       +'<div class="venue-name">🎣 '+v.n+'</div>'
+
+
 
       +'<div class="venue-meta">📍'+v.a+'<br>💰'+v.p+'<br>🐟'+v.f+'<br>🎯'+v.t+'</div>'
 
+
+
       +'<div class="venue-tags">'+tags+'</div>'
+
+
 
       +'<div class="venue-desc">'+v.d+'</div></div>';
 
+
+
   }).join('');
+
+
 
   document.getElementById('venueGrid').innerHTML = allVenuesHTML;
 
+
+
 }
+
+
+
+
 
 
 
 function filterVenues(q) {
 
+
+
   if (!q) { document.getElementById('venueGrid').innerHTML = allVenuesHTML; return; }
+
+
 
   const kw = q.toLowerCase();
 
+
+
   const filtered = SV.filter(v =>
+
+
 
     v.n.toLowerCase().includes(kw) ||
 
+
+
     (v.a||'').toLowerCase().includes(kw) ||
+
+
 
     v.f.toLowerCase().includes(kw) ||
 
+
+
     v.d.toLowerCase().includes(kw)
+
+
 
   );
 
+
+
   // Re-render filtered
+
+
 
   document.getElementById('venueGrid').innerHTML = filtered.length
 
+
+
     ? filtered.map(v => {
+
+
 
         const tags = v.tg.map(t => t==='boat'?'<span class="vtag boat">🚤船钓</span>':t==='shore'?'<span class="vtag shore">🏖️岸钓</span>':t==='price'?'<span class="vtag price">💰价</span>':'').join('');
 
+
+
         return '<div class="venue-card" onclick="flyToVenue('+v.la+','+v.lo+')">'
+
+
 
           +'<div class="venue-name">🎣 '+v.n+'</div>'
 
+
+
           +'<div class="venue-meta">📍'+v.a+'<br>💰'+v.p+'<br>🐟'+v.f+'<br>🎯'+v.t+'</div>'
+
+
 
           +'<div class="venue-tags">'+tags+'</div>'
 
+
+
           +'<div class="venue-desc">'+v.d+'</div></div>';
+
+
 
       }).join('')
 
+
+
     : '<div style="text-align:center;padding:30px;color:var(--gray-400);font-size:14px;">🌸 没有找到匹配的钓场～换个关键词试试 ✨</div>';
+
+
 
 }
 
 
 
+
+
+
+
 // ============================================================
+
+
 
 // INIT
 
+
+
 // ============================================================
+
+
 
 document.addEventListener('DOMContentLoaded', ()=>{
 
+
+
   initMap();
+
+
 
   renderVenues();
 
+
+
   renderFishTags();
+
+
 
   const m=new Date().getMonth()+1;
 
+
+
   document.getElementById('season').value=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'fall':'winter';
+
+
 
 });
 
+
+
 </script>
+
+
 
   </div>
 
+
+
 </div>
+
+
+
+
 
 
 
 <!-- 最新放鱼信息 + 香蕉路亚评测 -->
 
-</div>
 
+
+</div>
 <div class="page" id="page-latest">
 <div class="container">
 
+
+
   <div class="section-title" style="margin-top:32px;">🌸 最新钓场动态 ✨</div>
+
+
 
   <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
 
+
+
     <button class="filter-btn active" onclick="showFishDataTab('stock')">🐟 放鱼信息</button>
+
+
 
     <button class="filter-btn" onclick="showFishDataTab('review')">🎬 香蕉路亚评测</button>
 
+
+
   </div>
+
+
 
   <div id="fishDataContainer" style="min-height:120px;">
 
+
+
     <div style="text-align:center;padding:40px;color:var(--gray-400);">⏳ 加载中...</div>
+
+
 
   </div>
 
+
+
   <div id="lastUpdate" style="text-align:right;font-size:12px;color:var(--gray-400);margin-top:8px;"></div>
 
+
+
 </div>
+
+
+
+
 
 
 
 <script>
 
+
+
 // 加载钓场数据 — 直接内联，无需外部fetch
 
+
+
 // ============================================================
+
+
 
 // 放鱼信息 & 评测数据 — 优先 fetch，失败则使用内联兜底
 
+
+
 // ============================================================
+
+
 
 let fishData = null;
 
+
+
 const FALLBACK_FISH_DATA = {
+
+
 
   "last_update": "2026-06-07 15:30:00",
 
+
+
   "reviews": [
 
+
+
     {
+
+
 
       "source": "香蕉路亚",
 
+
+
       "video_title": "示例：青浦青松路亚探钓分享",
+
+
 
       "video_url": "https://www.bilibili.com/",
 
+
+
       "location": "青松路亚",
+
+
 
       "fish_species": ["鲈鱼", "翘嘴"],
 
+
+
       "price": "138元",
 
+
+
       "date": "2026-06-07",
+
+
 
       "description": "示例数据，爬虫运行后将自动更新",
 
+
+
       "type": "review"
 
+
+
     }
+
+
 
   ],
 
+
+
   "stock_info": [
+
+
 
     {
 
+
+
       "source": "示例数据",
+
+
 
       "location": "嘉北郊野公园路亚基地",
 
+
+
       "address": "上海市嘉定区",
+
+
 
       "fish_species": ["鲈鱼", "鳜鱼"],
 
+
+
       "stock_count": "200斤",
+
+
 
       "price": "150元/天",
 
+
+
       "date": "2026-06-07",
+
+
 
       "type": "stock_info",
 
+
+
       "note": "爬虫运行后将自动更新真实数据"
+
+
 
     }
 
+
+
   ]
+
+
 
 };
 
 
 
+
+
+
+
 async function loadFishData() {
+
+
 
   try {
 
+
+
     const res = await fetch('fish-stock-data.json?t=' + Date.now());
+
+
 
     if (res.ok) {
 
+
+
       fishData = await res.json();
+
+
 
       console.log('✅ 放鱼数据从 fish-stock-data.json 加载成功');
 
+
+
     } else {
+
+
 
       throw new Error('HTTP ' + res.status);
 
+
+
     }
+
+
 
   } catch (err) {
 
+
+
     console.warn('⚠️ 加载 fish-stock-data.json 失败，使用内联兜底数据:', err);
+
+
 
     fishData = FALLBACK_FISH_DATA;
 
+
+
   }
+
+
 
   document.getElementById('lastUpdate').textContent = '最后更新：' + (fishData.last_update || '未知');
 
+
+
   showFishDataTab('stock', true);
 
+
+
 }
+
+
+
+
 
 
 
 function showFishDataTab(tab, isInit) {
 
+
+
   // 更新按钮状态
+
+
 
   document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
 
+
+
   if (!isInit && event && event.target) {
+
+
 
     event.target.classList.add('active');
 
+
+
   } else {
+
+
 
     document.querySelector('.filter-btn').classList.add('active');
 
+
+
   }
 
+
+
   
+
+
 
   const container = document.getElementById('fishDataContainer');
 
+
+
   
+
+
 
   if (tab === 'stock') {
 
+
+
     // 显示放鱼信息
+
+
 
     const stockList = fishData.stock_info || [];
 
+
+
     if (stockList.length === 0) {
+
+
 
       container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray-400);">🌸 暂无放鱼信息～</div>';
 
+
+
       return;
+
+
 
     }
 
+
+
     
+
+
 
     container.innerHTML = stockList.map(item => `
 
+
+
       <div class="venue-card" style="margin-bottom:12px;">
+
+
 
         <div style="display:flex;justify-content:space-between;align-items:flex-start;">
 
+
+
           <div>
+
+
 
             <div class="venue-name" style="font-size:15px;">🐟 ${item.location || '未知钓场'}</div>
 
+
+
             <div class="venue-meta" style="font-size:12px;margin-top:4px;">
+
+
 
               ${item.address ? '📍' + item.address + '<br>' : ''}
 
+
+
               ${item.fish_species ? '🎏鱼种：' + item.fish_species.join('、') + '<br>' : ''}
+
+
 
               ${item.stock_count ? '📦放鱼量：' + item.stock_count + '<br>' : ''}
 
+
+
               ${item.price ? '💰价格：' + item.price + '<br>' : ''}
+
+
 
             </div>
 
+
+
           </div>
+
+
 
           <div style="font-size:12px;color:var(--gray-400);white-space:nowrap;">${item.date || ''}</div>
 
+
+
         </div>
+
+
 
         ${item.note ? '<div style="font-size:11px;color:var(--gray-600);margin-top:6px;padding:4px 8px;background:var(--pk-lighter);border-radius:6px;">📝 ' + item.note + '</div>' : ''}
 
+
+
         <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">来源：${item.source || '未知'}</div>
+
+
 
       </div>
 
+
+
     `).join('');
 
+
+
     
+
+
 
   } else if (tab === 'review') {
 
+
+
     // 显示香蕉路亚评测
+
+
 
     const reviewList = fishData.reviews || [];
 
+
+
     if (reviewList.length === 0) {
+
+
 
       container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray-400);">🌸 暂无评测信息～</div>';
 
+
+
       return;
+
+
 
     }
 
+
+
     
+
+
 
     container.innerHTML = reviewList.map(item => `
 
+
+
       <div class="venue-card" style="margin-bottom:12px;">
+
+
 
         <div style="display:flex;justify-content:space-between;align-items:flex-start;">
 
+
+
           <div>
+
+
 
             <div class="venue-name" style="font-size:15px;">
 
+
+
               <a href="${item.video_url || '#'}" target="_blank" style="color:inherit;text-decoration:none;">🎬 ${item.video_title || '未知视频'}</a>
 
+
+
             </div>
+
+
 
             <div class="venue-meta" style="font-size:12px;margin-top:4px;">
 
+
+
               ${item.location ? '📍钓场：' + item.location + '<br>' : ''}
+
+
 
               ${item.fish_species ? '🎏鱼种：' + item.fish_species.join('、') + '<br>' : ''}
 
+
+
               ${item.price ? '💰价格：' + item.price + '<br>' : ''}
+
+
 
             </div>
 
+
+
           </div>
+
+
 
           <div style="font-size:12px;color:var(--gray-400);white-space:nowrap;">${item.date || ''}</div>
 
+
+
         </div>
+
+
 
         ${item.description ? '<div style="font-size:11px;color:var(--gray-600);margin-top:6px;">📝 ' + item.description + '</div>' : ''}
 
+
+
         <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">来源：香蕉路亚（香蕉不拿拿）</div>
+
+
 
       </div>
 
+
+
     `).join('');
 
+
+
   }
+
+
 
 }
 
 
 
+
+
+
+
 // 页面加载时自动加载数据
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
+
+
   loadFishData();
+
+
 
 });
 
+
+
 </script>
+
+
+
+
 
 
 
@@ -2219,7 +5157,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
+
+
 </body>
 
+
+
 </html>
+
+
 
