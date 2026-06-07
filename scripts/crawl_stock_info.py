@@ -96,13 +96,27 @@ def fetch_wechat_public_account():
     return results
 
 def fetch_douyin_data():
-    """获取抖音上的放鱼信息（需要API或爬虫）"""
-    # 抖音反爬较强，这里提供框架
+    """获取抖音上的放鱼信息 - 调用专用抖音爬虫模块"""
     results = []
     
-    # 实际应用中可以使用：
-    # 1. 抖音开放平台API（需要申请）
-    # 2. 模拟浏览器爬取（需要处理反爬）
+    try:
+        import crawl_douyin
+        print("调用抖音爬虫模块...")
+        count = crawl_douyin.main()
+        if count > 0:
+            # 重新读取数据文件获取最新结果
+            output_path = os.path.join(os.path.dirname(__file__), "../fish-stock-data.json")
+            if os.path.exists(output_path):
+                with open(output_path, 'r', encoding='utf-8') as f:
+                    existing = json.load(f)
+                results = existing.get('stock_info', [])
+                print(f"  抖音爬虫返回 {len(results)} 条放鱼信息")
+            else:
+                results = generate_sample_data()
+    except ImportError as e:
+        print(f"  抖音爬虫模块未找到: {e}")
+    except Exception as e:
+        print(f"  抖音爬虫运行异常: {e}")
     
     return results
 
@@ -144,6 +158,10 @@ def main():
     # 从路亚塘获取
     kklure_data = fetch_kklure_data()
     all_results.extend(kklure_data)
+    
+    # 从抖音获取
+    douyin_data = fetch_douyin_data()
+    all_results.extend(douyin_data)
     
     # 如果真实数据源都失败，使用示例数据
     if not all_results:
