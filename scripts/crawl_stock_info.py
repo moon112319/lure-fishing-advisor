@@ -80,19 +80,23 @@ def fetch_kklure_data():
     return results
 
 def fetch_wechat_public_account():
-    """获取微信公众号的放鱼信息（需要特殊方法）"""
-    # 微信公众号需要通过搜狗搜索或者其他方式
-    # 这里提供框架，实际应用中需要具体实现
+    """获取微信公众号的放鱼信息 - 调用专用微信爬虫模块"""
     results = []
-    
-    # 示例：搜索上海路亚钓场的公众号文章
     try:
-        search_url = "https://weixin.sogou.com/weixin?type=2&query=上海路亚+放鱼"
-        # 需要特殊处理，这里省略具体实现
-        pass
+        import crawl_wechat
+        print("调用微信公众号爬虫模块...")
+        count = crawl_wechat.main()
+        if count > 0:
+            output_path = os.path.join(os.path.dirname(__file__), "../fish-stock-data.json")
+            if os.path.exists(output_path):
+                with open(output_path, 'r', encoding='utf-8') as f:
+                    existing = json.load(f)
+                results = existing.get('stock_info', [])
+                print(f"  微信爬虫返回 {len(results)} 条放鱼信息")
+    except ImportError as e:
+        print(f"  微信爬虫模块未找到: {e}")
     except Exception as e:
-        print(f"获取公众号信息失败: {e}")
-    
+        print(f"  微信爬虫运行异常: {e}")
     return results
 
 def fetch_douyin_data():
@@ -162,6 +166,10 @@ def main():
     # 从抖音获取
     douyin_data = fetch_douyin_data()
     all_results.extend(douyin_data)
+    
+    # 从微信公众号获取
+    wechat_data = fetch_wechat_public_account()
+    all_results.extend(wechat_data)
     
     # 如果真实数据源都失败，使用示例数据
     if not all_results:
