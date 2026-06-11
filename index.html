@@ -2158,19 +2158,41 @@ const FK = {
 
 
 
-  bass:{name:'鲈鱼',color:'#ff8da1',accent:'#ff6b8a',waterLayer:'中上层/结构区',bestTemp:'18-28℃',habits:'喜欢结构区（倒树、岩石、水草边），攻击性强。窗口期清晨和黄昏。',rod:{power:'M/MH',action:'快调/超快调',length:'1.98-2.13m',castingType:'枪柄/直柄'},reel:{type:'水滴轮/纺车轮',ratio:'高速比7.0-8.0:1',lineCapacity:'PE1.0-1.5号,2000-3000型'},lures:[{name:'德州钓组',icon:'🐛',weight:'5-15g',desc:'跳底，结构区'},{name:'复合亮片',icon:'✨',weight:'7-14g',desc:'快速搜索'},{name:'水面拖拉机',icon:'🚜',weight:'10-20g',desc:'水面系'},{name:'倒吊钓组',icon:'🪱',weight:'5-10g',desc:'精细作钓'}],pressureEffect:'高气压(1005-1025hPa)最佳',pressureScore:p=>p>=1005&&p<=1025?90:p<990?30:65},
+  bass:{name:'鲈鱼',color:'#ff8da1',accent:'#ff6b8a',waterLayer:'中上层/结构区',bestTemp:'18-28℃',habits:'喜欢结构区（倒树、岩石、水草边），攻击性强。窗口期清晨和黄昏。',rod:{power:'M/MH',action:'快调/超快调',length:'1.98-2.13m',castingType:'枪柄/直柄'},reel:{type:'水滴轮/纺车轮',ratio:'高速比7.0-8.0:1',lineCapacity:'PE1.0-1.5号,2000-3000型'},lures:[{name:'德州钓组',icon:'🐛',weight:'5-15g',desc:'跳底，结构区'},{name:'复合亮片',icon:'✨',weight:'7-14g',desc:'快速搜索'},{name:'水面拖拉机',icon:'🚜',weight:'10-20g',desc:'水面系'},{name:'倒吊钓组',icon:'🪱',weight:'5-10g',desc:'精细作钓'},
+        {name:'无铅钓组(Wacky)',icon:'🪱',weight:'3-8g',desc:'精细神饵，慢沉抖动'},
+        {name:'微铅(Neko)',icon:'📌',weight:'2-6g',desc:'微铅敏感，精细操控'},
+        {name:'Jig',icon:'⛏️',weight:'7-14g',desc:'跳底搜索障碍区'},
+        {name:'挡水板(Chatterbait)',icon:'💥',weight:'7-14g',desc:'震动+挡水板复合'},
+        {name:'泳饵(Swimbait)',icon:'🐟',weight:'10-20g',desc:'大饵钓大鱼'},
+        {name:'抽停米诺(Jerkbait)',icon:'🎯',weight:'7-14g',desc:'抽-停-抽诱咬'}
+      ],pressureEffect:'高气压(1005-1025hPa)最佳',pressureScore:p=>p>=1005&&p<=1025?90:p<990?30:65},
 
 
 
-  mandarin:{name:'鳜鱼',color:'#ffb347',accent:'#ff8c00',waterLayer:'底层/障碍区',bestTemp:'15-25℃',habits:'伏击型，躲石头缝、桥墩。咬口轻，需要高感度装备。',rod:{power:'L/ML',action:'超快调/快调',length:'1.8-2.1m',castingType:'直柄(纺车)更佳'},reel:{type:'纺车轮首选',ratio:'中高速6.5-7.5:1',lineCapacity:'PE0.6-1.0号,1000-2000型'},lures:[{name:'铅头钩+卷尾',icon:'🪱',weight:'3-10g',desc:'跳底神饵'},{name:'德州钓组',icon:'🐛',weight:'3-10g',desc:'防挂障碍区'},{name:'VIB',icon:'📳',weight:'5-10g',desc:'震动吸引'},{name:'小胖Crank',icon:'🏐',weight:'5-12g',desc:'深潜磕底'}],pressureEffect:'中高压(1000-1020hPa)较佳',pressureScore:p=>p>=1000&&p<=1020?85:p<990?35:60},
+  mandarin:{name:'鳜鱼',color:'#ffb347',accent:'#ff8c00',waterLayer:'底层/障碍区',bestTemp:'15-25℃',habits:'伏击型，躲石头缝、桥墩。咬口轻，需要高感度装备。',rod:{power:'L/ML',action:'超快调/快调',length:'1.8-2.1m',castingType:'直柄(纺车)更佳'},reel:{type:'纺车轮首选',ratio:'中高速6.5-7.5:1',lineCapacity:'PE0.6-1.0号,1000-2000型'},lures:[{name:'铅头钩+卷尾',icon:'🪱',weight:'3-10g',desc:'跳底神饵'},{name:'德州钓组',icon:'🐛',weight:'3-10g',desc:'防挂障碍区'},{name:'VIB',icon:'📳',weight:'5-10g',desc:'震动吸引'},{name:'小胖Crank',icon:'🏐',weight:'5-12g',desc:'深潜磕底'},
+        {name:'Jig',icon:'⛏️',weight:'3-7g',desc:'小型Jig跳石头缝'},
+        {name:'微铅(Neko)',icon:'📌',weight:'2-5g',desc:'微铅超敏感'},
+        {name:'抽停米诺(Jerkbait)',icon:'🎯',weight:'5-8g',desc:'慢抽诱咬'},
+        {name:'插铅(Insert)',icon:'📎',weight:'2-5g',desc:'插铅精细钓底'}
+      ],pressureEffect:'中高压(1000-1020hPa)较佳',pressureScore:p=>p>=1000&&p<=1020?85:p<990?35:60},
 
 
 
-  culter:{name:'翘嘴',color:'#87ceeb',accent:'#5babd8',waterLayer:'中上层/水面',bestTemp:'15-30℃',habits:'中上层，早晚窗口期活跃，远投搜索。气压上升期疯狂摄食。',rod:{power:'ML/M',action:'快调/中快调',length:'2.1-2.4m',castingType:'直柄(纺车)远投优'},reel:{type:'纺车2000-2500型',ratio:'中高速6.5-7.5:1',lineCapacity:'PE1.0-1.2号,150-200m'},lures:[{name:'亮片',icon:'💫',weight:'5-15g',desc:'远投利器'},{name:'米诺',icon:'🐟',weight:'7-14g',desc:'匀速回收'},{name:'波爬',icon:'💦',weight:'7-14g',desc:'水面抽停'},{name:'VIB',icon:'📳',weight:'7-15g',desc:'全水层搜索'}],pressureEffect:'气压上升期最佳',pressureScore:p=>p>=1000&&p<=1020?85:p<990?40:65},
+  culter:{name:'翘嘴',color:'#87ceeb',accent:'#5babd8',waterLayer:'中上层/水面',bestTemp:'15-30℃',habits:'中上层，早晚窗口期活跃，远投搜索。气压上升期疯狂摄食。',rod:{power:'ML/M',action:'快调/中快调',length:'2.1-2.4m',castingType:'直柄(纺车)远投优'},reel:{type:'纺车2000-2500型',ratio:'中高速6.5-7.5:1',lineCapacity:'PE1.0-1.2号,150-200m'},lures:[{name:'亮片',icon:'💫',weight:'5-15g',desc:'远投利器'},{name:'米诺',icon:'🐟',weight:'7-14g',desc:'匀速回收'},{name:'波爬',icon:'💦',weight:'7-14g',desc:'水面抽停'},{name:'VIB',icon:'📳',weight:'7-15g',desc:'全水层搜索'},
+        {name:'泳饵(Swimbait)',icon:'🐟',weight:'10-18g',desc:'大饵远投'},
+        {name:'抽停米诺(Jerkbait)',icon:'🎯',weight:'7-12g',desc:'抽停诱翘嘴'},
+        {name:'铅笔(Pencil)',icon:'✏️',weight:'7-15g',desc:'之字水面系'},
+        {name:'Jig',icon:'⛏️',weight:'7-12g',desc:'跳底搜索'}
+      ],pressureEffect:'气压上升期最佳',pressureScore:p=>p>=1000&&p<=1020?85:p<990?40:65},
 
 
 
-  snakehead:{name:'黑鱼',color:'#b5ead7',accent:'#6bc4a0',waterLayer:'表层/草区',bestTemp:'20-32℃',habits:'凶猛捕食者，水草密集区、荷叶下。雷强打黑专用，护仔期攻击性最强。',rod:{power:'H/XH',action:'快调',length:'2.1-2.4m',castingType:'枪柄(雷强竿)'},reel:{type:'鼓轮/强力水滴轮',ratio:'低速5.0-6.3:1',lineCapacity:'PE4-6号,大力马线'},lures:[{name:'雷蛙',icon:'🐸',weight:'10-25g',desc:'水面草区'},{name:'软虫无铅',icon:'🐛',weight:'7-15g',desc:'配粗钩过障碍'},{name:'之字狗',icon:'🐕',weight:'10-20g',desc:'Z字走位'}],pressureEffect:'高气压水面攻击积极',pressureScore:p=>p>=1000&&p<=1025?80:p<985?30:55},
+  snakehead:{name:'黑鱼',color:'#b5ead7',accent:'#6bc4a0',waterLayer:'表层/草区',bestTemp:'20-32℃',habits:'凶猛捕食者，水草密集区、荷叶下。雷强打黑专用，护仔期攻击性最强。',rod:{power:'H/XH',action:'快调',length:'2.1-2.4m',castingType:'枪柄(雷强竿)'},reel:{type:'鼓轮/强力水滴轮',ratio:'低速5.0-6.3:1',lineCapacity:'PE4-6号,大力马线'},lures:[{name:'雷蛙',icon:'🐸',weight:'10-25g',desc:'水面草区'},{name:'软虫无铅',icon:'🐛',weight:'7-15g',desc:'配粗钩过障碍'},{name:'之字狗',icon:'🐕',weight:'10-20g',desc:'Z字走位'},
+        {name:'Jig',icon:'⛏️',weight:'10-20g',desc:'草区边缘Jig'},
+        {name:'无铅钓组',icon:'🪱',weight:'7-15g',desc:'无铅过草'},
+        {name:'泳饵(Swimbait)',icon:'🐟',weight:'10-20g',desc:'浅水搜索'},
+        {name:'铅笔(Pencil)',icon:'✏️',weight:'7-15g',desc:'水面之字'}
+      ],pressureEffect:'高气压水面攻击积极',pressureScore:p=>p>=1000&&p<=1025?80:p<985?30:55},
 
 
 
@@ -2178,11 +2200,18 @@ const FK = {
 
 
 
-  redtail:{name:'红尾',color:'#ff6b6b',accent:'#e05555',waterLayer:'中上层',bestTemp:'16-28℃',habits:'攻击迅猛，喜欢流动水域追捕小鱼。对快速移动的饵反应强烈。',rod:{power:'ML/M',action:'快调',length:'2.1-2.4m',castingType:'直柄/枪柄'},reel:{type:'纺车2500型',ratio:'中高速6.5-7.5:1',lineCapacity:'PE1.0-1.2号'},lures:[{name:'亮片',icon:'💫',weight:'5-12g',desc:'快速匀收'},{name:'VIB',icon:'📳',weight:'7-12g',desc:'全泳层'},{name:'米诺',icon:'🐟',weight:'7-12g',desc:'变速回收'}],pressureEffect:'气压上升期活性高',pressureScore:p=>p>=1000&&p<=1020?85:p<990?35:60},
+  redtail:{name:'红尾',color:'#ff6b6b',accent:'#e05555',waterLayer:'中上层',bestTemp:'16-28℃',habits:'攻击迅猛，喜欢流动水域追捕小鱼。对快速移动的饵反应强烈。',rod:{power:'ML/M',action:'快调',length:'2.1-2.4m',castingType:'直柄/枪柄'},reel:{type:'纺车2500型',ratio:'中高速6.5-7.5:1',lineCapacity:'PE1.0-1.2号'},lures:[{name:'亮片',icon:'💫',weight:'5-12g',desc:'快速匀收'},{name:'VIB',icon:'📳',weight:'7-12g',desc:'全泳层'},{name:'米诺',icon:'🐟',weight:'7-12g',desc:'变速回收'},
+        {name:'抽停米诺(Jerkbait)',icon:'🎯',weight:'7-12g',desc:'抽停诱红尾'},
+        {name:'铅笔(Pencil)',icon:'✏️',weight:'7-12g',desc:'水面铅笔'}
+      ],pressureEffect:'气压上升期活性高',pressureScore:p=>p>=1000&&p<=1020?85:p<990?35:60},
 
 
 
-  yellowcheek:{name:'鳡鱼',color:'#ffd700',accent:'#e6b800',waterLayer:'中上层/水面',bestTemp:'18-30℃',habits:'淡水霸主，爆发力极强。需要强力装备暴力操控。',rod:{power:'MH/H',action:'快调/中快调',length:'2.4-2.7m',castingType:'枪柄或直柄(大纺车)'},reel:{type:'纺车4000-5000型',ratio:'高速7.0-8.0:1',lineCapacity:'PE2.0-4.0号'},lures:[{name:'大型米诺/波爬',icon:'🐟',weight:'15-30g',desc:'水面远投'},{name:'大型铅笔',icon:'✏️',weight:'15-30g',desc:'之字走法'},{name:'铁板',icon:'⛏️',weight:'20-40g',desc:'暴力远投'},{name:'复合亮片',icon:'✨',weight:'15-25g',desc:'快速搜索'}],pressureEffect:'高气压开阔水域活跃',pressureScore:p=>p>=1005&&p<=1025?85:p<990?30:55},
+  yellowcheek:{name:'鳡鱼',color:'#ffd700',accent:'#e6b800',waterLayer:'中上层/水面',bestTemp:'18-30℃',habits:'淡水霸主，爆发力极强。需要强力装备暴力操控。',rod:{power:'MH/H',action:'快调/中快调',length:'2.4-2.7m',castingType:'枪柄或直柄(大纺车)'},reel:{type:'纺车4000-5000型',ratio:'高速7.0-8.0:1',lineCapacity:'PE2.0-4.0号'},lures:[{name:'大型米诺/波爬',icon:'🐟',weight:'15-30g',desc:'水面远投'},{name:'大型铅笔',icon:'✏️',weight:'15-30g',desc:'之字走法'},{name:'铁板',icon:'⛏️',weight:'20-40g',desc:'暴力远投'},{name:'复合亮片',icon:'✨',weight:'15-25g',desc:'快速搜索'},
+        {name:'Jig',icon:'⛏️',weight:'15-25g',desc:'大型Jig'},
+        {name:'泳饵(Swimbait)',icon:'🐟',weight:'15-30g',desc:'大泳饵搜索'},
+        {name:'抽停米诺(Jerkbait)',icon:'🎯',weight:'12-20g',desc:'抽停诱鳡鱼'}
+      ],pressureEffect:'高气压开阔水域活跃',pressureScore:p=>p>=1005&&p<=1025?85:p<990?30:55},
 
 
 
@@ -2190,11 +2219,19 @@ const FK = {
 
 
 
-  catfish:{name:'鲶鱼',color:'#a8a8a8',accent:'#8a8a8a',waterLayer:'底层/深水',bestTemp:'20-30℃',habits:'底层伏击，深水区、涵洞。夜行性，阴雨天活性高。',rod:{power:'MH',action:'中快调/快调',length:'2.1-2.4m',castingType:'枪柄或直柄'},reel:{type:'水滴/纺车3000-4000型',ratio:'中速6.0-7.0:1',lineCapacity:'PE2.0-3.0号'},lures:[{name:'德州软虫',icon:'🐛',weight:'10-20g',desc:'底跳搜索'},{name:'VIB',icon:'📳',weight:'10-20g',desc:'震动吸引'},{name:'大型软饵',icon:'🪱',weight:'15-25g',desc:'模仿泥鳅'}],pressureEffect:'低气压阴雨天反而活跃',pressureScore:p=>p<=1005?80:50},
+  catfish:{name:'鲶鱼',color:'#a8a8a8',accent:'#8a8a8a',waterLayer:'底层/深水',bestTemp:'20-30℃',habits:'底层伏击，深水区、涵洞。夜行性，阴雨天活性高。',rod:{power:'MH',action:'中快调/快调',length:'2.1-2.4m',castingType:'枪柄或直柄'},reel:{type:'水滴/纺车3000-4000型',ratio:'中速6.0-7.0:1',lineCapacity:'PE2.0-3.0号'},lures:[{name:'德州软虫',icon:'🐛',weight:'10-20g',desc:'底跳搜索'},{name:'VIB',icon:'📳',weight:'10-20g',desc:'震动吸引'},{name:'大型软饵',icon:'🪱',weight:'15-25g',desc:'模仿泥鳅'},
+        {name:'Jig',icon:'⛏️',weight:'10-20g',desc:'底跳Jig'},
+        {name:'泳饵(Swimbait)',icon:'🐟',weight:'15-25g',desc:'慢速拖底'}
+      ],pressureEffect:'低气压阴雨天反而活跃',pressureScore:p=>p<=1005?80:50},
 
 
 
-  snapper:{name:'海鲈',color:'#7ec8e3',accent:'#5babd8',waterLayer:'中上层/礁石区',bestTemp:'15-26℃',habits:'海水路亚代表，爆发力强。礁石区、防波堤、河口。洄游性，季节性强。',rod:{power:'M/MH',action:'快调/中快调',length:'2.4-3.0m',castingType:'枪柄或直柄'},reel:{type:'纺车3000-4000型',ratio:'中高速6.5-7.5:1',lineCapacity:'PE1.5-2.5号'},lures:[{name:'铁板',icon:'⛏️',weight:'15-30g',desc:'远投深水'},{name:'米诺',icon:'🐟',weight:'10-20g',desc:'中上层回收'},{name:'波爬',icon:'💦',weight:'10-25g',desc:'水面激浪'},{name:'铅头钩+软饵',icon:'🪱',weight:'10-20g',desc:'跳底礁石'}],pressureEffect:'稳定中压+潮汐更重要',pressureScore:p=>p>=1000&&p<=1020?80:p<985?35:55},
+  snapper:{name:'海鲈',color:'#7ec8e3',accent:'#5babd8',waterLayer:'中上层/礁石区',bestTemp:'15-26℃',habits:'海水路亚代表，爆发力强。礁石区、防波堤、河口。洄游性，季节性强。',rod:{power:'M/MH',action:'快调/中快调',length:'2.4-3.0m',castingType:'枪柄或直柄'},reel:{type:'纺车3000-4000型',ratio:'中高速6.5-7.5:1',lineCapacity:'PE1.5-2.5号'},lures:[{name:'铁板',icon:'⛏️',weight:'15-30g',desc:'远投深水'},{name:'米诺',icon:'🐟',weight:'10-20g',desc:'中上层回收'},{name:'波爬',icon:'💦',weight:'10-25g',desc:'水面激浪'},{name:'铅头钩+软饵',icon:'🪱',weight:'10-20g',desc:'跳底礁石'},
+        {name:'抽停米诺(Jerkbait)',icon:'🎯',weight:'12-20g',desc:'抽停诱海鲈'},
+        {name:'泳饵(Swimbait)',icon:'🐟',weight:'15-25g',desc:'海水泳饵'},
+        {name:'Jig',icon:'⛏️',weight:'15-30g',desc:'铁板Jig跳底'},
+        {name:'铅笔(Pencil)',icon:'✏️',weight:'10-20g',desc:'水面铅笔'}
+      ],pressureEffect:'稳定中压+潮汐更重要',pressureScore:p=>p>=1000&&p<=1020?80:p<985?35:55},
 
 
 
